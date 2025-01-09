@@ -6,3 +6,8 @@ anastasiaL -- 2025-01-07 22:51
 victorC -- 2025-01-08 20:36
 - made create tables and reset db functions
 - made functions to add every element to db
+
+victorC -- 2025-01-08 20:59
+- made all sorts of get functions for database
+- added more diag print statements
+- added check login function

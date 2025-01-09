@@ -58,10 +58,13 @@ def resetDB():
         createTables()
     else:
         print("Cannot reset database as database does not exist")
+        print("Creating database")
+        createTables()
 
  #returns true if successful, and false if not (email is identical to another user's)
  #all inputs are strings
 def createUser(email, password, type):
+    print(f"Adding user {email}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
 
@@ -72,7 +75,7 @@ def createUser(email, password, type):
         print("Successfully added user")
         return True
     except Exception as e:
-        print("Failed to add user")
+        print("Failed to add user (does the user already exist in the database?)")
         db.close()
         return False
 
@@ -80,6 +83,7 @@ def createUser(email, password, type):
 #name is also a string
 #returns true if successful, and false if not (name is identical to another restaurant's)
 def createRestaurant(name, openTime, closeTime, timeBetweenReserves, owner):
+    print(f"Creating restaurant {name} which opens at {openTime}, closes at {closeTime}, needs {timeBetweenReserves} minutes between reservations, and is owned by {owner}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
 
@@ -97,6 +101,7 @@ def createRestaurant(name, openTime, closeTime, timeBetweenReserves, owner):
 #restaurant is string name of restaurant, numSeats is integer
 #returns true if successful, false if not (don't know why it wouldn't be)
 def createTable(restaurant, numSeats):
+    print(f"Creating table with {numSeats} at {restaurant}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
 
@@ -123,6 +128,7 @@ def createTable(restaurant, numSeats):
 #5 if an error occurs while inserting into the db
 #use output == True to check if its an integer or boolean (1 is not an output b/c 1==True is True in python)
 def createReservation(reserverEmail, tableID, numPeople, time):
+    print(f"Creating reservation for {reserverEmail} at table {tableID} for {numPeople} people at {time}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
     c.execute("SELECT restaurant, numSeats FROM TableData WHERE ID = ?", (tableID,))
@@ -172,12 +178,76 @@ def createReservation(reserverEmail, tableID, numPeople, time):
     except:
         print("Reservation Failed??")
         return 5
+
+#Returns list of tuples
+#Each tuple has (name, openTime, closeTime, timeBetweenReserves, owner)
+def getRestaurants():
+    print("Getting all restaurants")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    c.execute("SELECT name, openTime, closeTime, timeBetweenReserves, owner FROM RestaurantData")
+    return c.fetchall()
+
+#restaurant is string (name of restaurant)
+#Returns list of tuples
+#Each tuple has (ID, numSeats)
+def getTables(restaurant):
+    print(f"Getting all tables for {restaurant}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    c.execute("SELECT ID, numSeats FROM TableData WHERE restaurant = ?", (restaurant,))
+    return c.fetchall()
+
+#restaurant is integer (ID of table)
+#Returns list of tuples
+#Each tuple has (reserverEmail, numPeople, timeReserved)
+def getReservations(tableID):
+    print(f"Getting all reservations for table {tableID}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    c.execute("SELECT reserverEmail, numPeople, time FROM ReservationData WHERE tableID = ?", (tableID,))
+    return c.fetchall()
+
+#email and password are text
+#returns user type if correct
+#returns False if login incorrect / does not exist
+def checkLogin(email, password):
+    print(f"Checking login for {email}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    c.execute("SELECT password, type FROM UserData WHERE email = ?", (email,))
+    row = c.fetchone()
+
+    if row == None:
+        print("Email does not exist in db")
+        return False #account w that email does not exist
+
+    if row[0] == password:
+        print("Login correct")
+        return row[1]
+    else:
+        print("Incorrect password")
+        return False
+
 '''
 resetDB()
 print(createUser("joe", "smith", "owner"))
 print(createRestaurant("pizzaAAAA RUN", "8:40", "13:10", 12, "joe"))
+print(createRestaurant("pizzaAAAA RUN", "8:40", "13:10", 12, "joe"))
+print(createRestaurant("Bagel RUN", "8:40", "13:10", 12, "joe"))
+print(createTable("pizzaAAAA RUN", 8))
+print(createTable("pizzaAAAA RUN", 6))
+print(createTable("pizzaAAAA RUN", 5))
 print(createTable("pizzaAAAA RUN", 8))
 print(createReservation("mr smith", 1, 6, "2024-12-17-12:07"))
 print(createReservation("mr smith", 1, 7, "2024-12-17-12:07"))
 print(createReservation("mr smith", 1, 7, "2024-12-17-8:07"))
+print(createReservation("mr smith", 2, 5, "2024-12-17-8:50"))
+print(getRestaurants())
+print(getTables("pizzaAAAA RUN"))
+print(getReservations(1))
+print(getReservations(2))
+print(checkLogin("joe", "hi"))
+print(checkLogin("aaaa", "smith"))
+print(checkLogin("joe", "smith"))
 '''
