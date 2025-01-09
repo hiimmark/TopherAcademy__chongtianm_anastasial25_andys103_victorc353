@@ -15,7 +15,7 @@ app = Flask(__name__)
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template(".html")
+    return render_template("home.html")
 
 @app.route('/restaurants')
 def restaurants():
