@@ -116,11 +116,12 @@ def createTable(restaurant, numSeats):
 #time is a string in the form "2024-12-27-13:10"
 #returns true if successful, integer if not
 #0 if table ID provided does not exist
-#1 if there are not enough seats at the requested table
+#6 if there are not enough seats at the requested table
 #2 if the table is not linked to a Restaurant
 #3 if the restaurant is not open at the requested time
 #4 if another reservation is too close in time
 #5 if an error occurs while inserting into the db
+#use output == True to check if its an integer or boolean (1 is not an output b/c 1==True is True in python)
 def createReservation(reserverEmail, tableID, numPeople, time):
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
@@ -133,7 +134,7 @@ def createReservation(reserverEmail, tableID, numPeople, time):
 
     if numPeople > row[1]:
         print("Reservation failed due to a lack of seats at requested table")
-        return 1 #not enough seats
+        return 6 #not enough seats
 
     wantedTime = datetime.strptime(time, "%Y-%m-%d-%H:%M")
 
