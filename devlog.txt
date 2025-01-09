@@ -11,3 +11,8 @@ victorC -- 2025-01-08 20:59
 - made all sorts of get functions for database
 - added more diag print statements
 - added check login function
+
+markM -- 2025-10-09 11:00
+- Initialized and added outlines to __init__.py
+- Worked on functionalities for displaying restaurant list
+- Edited restaurants.html
