@@ -67,6 +67,7 @@ def resetDB():
 
  #returns true if successful, and false if not (email is identical to another user's)
  #all inputs are strings
+ #owner account = "owner", customer account = "customer"
 def createUser(email, password, type):
     print(f"Adding user {email}")
     db = sqlite3.connect(DATABASE_NAME)
@@ -287,18 +288,19 @@ def delRestaurant(name):
         print("Something went wrong")
         return False
 
-'''
-resetDB()
-print(createUser("joe", "smith", "owner"))
-print(createRestaurant("pizzaAAAA RUN", "8:40", "13:10", 12, "joe"))
-print(createTable("pizzaAAAA RUN", 8))
-print(createTable("pizzaAAAA RUN", 6))
-print(createReservation("mr smith", 1, 6, "2024-12-17-12:07"))
-print(createReservation("mr smith", 2, 5, "2024-12-17-8:50"))
-print(getReservations(1))
-print(getReservations(2))
-print(getTables("pizzaAAAA RUN"))
-print(delRestaurant("pizzaAAAA RUN"))
-print(getReservations(1))
-print(getReservations(2))
-'''
+#will reset DB and add some data
+def createSampleData():
+    resetDB()
+    createUser("topher@hotmail.com", "mykolyk", "owner")
+    createUser("tberri50@stuy.edu", "instructorendorsed", "owner")
+    createRestaurant("#GUDFAM Bagels", "8:00", "15:00", 20, "topher@hotmail.com")
+    createRestaurant("Berri's Berry Smoothies", "7:00", "20:00", 30, "tberri50@stuy.edu")
+    createTable("#GUDFAM Bagels", 10)
+    createTable("#GUDFAM Bagels", 3)
+    createTable("#GUDFAM Bagels", 5)
+    createTable("Berri's Berry Smoothies", 1)
+    createTable("Berri's Berry Smoothies", 2)
+    createTable("Berri's Berry Smoothies", 4)
+    createUser("marge@stuy.edu", "cslab", "customer")
+    createReservation("marge@stuy.edu", 1, 2, "2025-6-27-13:10")
+    createReservation("marge@stuy.edu", 2, 3, "2025-6-27-14:10")
