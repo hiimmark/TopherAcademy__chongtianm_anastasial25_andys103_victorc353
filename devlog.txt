@@ -2,3 +2,7 @@ anastasiaL -- 2025-01-07 22:51
 - uploaded design doc
 - created requirements.txt
 - finished README
+
+victorC -- 2025-01-08 20:36
+- made create tables and reset db functions
+- made functions to add every element to db
