@@ -51,6 +51,9 @@ def createTables():
         db.close()
 
         print("Tables successfully created \n")
+
+#just call this when resetting db, it calls createTables
+#if not, call neither
 def resetDB():
     if os.path.exists(DATABASE_NAME):
         os.remove(DATABASE_NAME)
