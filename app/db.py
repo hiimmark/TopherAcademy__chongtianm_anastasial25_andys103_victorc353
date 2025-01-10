@@ -205,13 +205,25 @@ def getTables(restaurant):
 
 #restaurant is integer (ID of table)
 #Returns list of tuples
-#Each tuple has (reserverEmail, numPeople, timeReserved)
+#Each tuple has (reserverEmail, numPeople, timeReserved, tableID)
 def getReservations(tableID):
     print(f"Getting all reservations for table {tableID}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
-    c.execute("SELECT reserverEmail, numPeople, time FROM ReservationData WHERE tableID = ?", (tableID,))
+    c.execute("SELECT reserverEmail, numPeople, time, tableID FROM ReservationData WHERE tableID = ?", (tableID,))
     return c.fetchall()
+
+#name is name of restaurant
+#returns 2d list
+#[[reservations for first table in restaurant], [reservations for second table in restaurant], [etc]]
+#reservations for each table is a list in the form [reserverEmail, numPeople, timeReserved, tableID]
+def getRestaurantReservations(name):
+    print(f"Getting all reservations for {name}")
+    tables = getTables(name)
+    reservations = []
+    for i in tables:
+        reservations.append(getReservations(i[0]))
+    return reservations
 
 #email and password are text
 #returns user type if correct
@@ -302,5 +314,10 @@ def createSampleData():
     createTable("Berri's Berry Smoothies", 2)
     createTable("Berri's Berry Smoothies", 4)
     createUser("marge@stuy.edu", "cslab", "customer")
+    createReservation("marge@stuy.edu", 1, 2, "2025-6-27-11:10")
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-13:10")
     createReservation("marge@stuy.edu", 2, 3, "2025-6-27-14:10")
+
+resetDB()
+createSampleData()
+print(getRestaurantReservations("#GUDFAM Bagels"))
