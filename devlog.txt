@@ -18,5 +18,10 @@ victorC -- 2025-01-09 10:35
 victorC -- 2025-01-09 10:58
 - made method to add sample data to db
 
+markM -- 2025-10-09 11:00
+- Initialized and added outlines to __init__.py
+- Worked on functionalities for displaying restaurant list
+- Edited restaurants.html
+
 victorC -- 2025-01-10 10:30
 - made method to get all reservations from a restaurant

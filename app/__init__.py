@@ -6,9 +6,10 @@ P02: Devo Dining
 Time Spent: 998244353 hours
 """
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import calendar, os
 from datetime import datetime
+import db
 
 app = Flask(__name__)
 
@@ -19,7 +20,11 @@ def home():
 
 @app.route('/restaurants')
 def restaurants():
-    return render_template("restaurants.html")
+    mode = "manager" # session["mode"]
+    name = "bob" # session["name"]
+    li = db.getRestaurants()
+
+    return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 def get_times(restaurant, time, numpeople):
     # return a 2d list of [[table ID, time]...]
