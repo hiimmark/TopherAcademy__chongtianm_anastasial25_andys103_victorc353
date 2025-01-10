@@ -12,6 +12,12 @@ victorC -- 2025-01-08 20:59
 - added more diag print statements
 - added check login function
 
+victorC -- 2025-01-09 10:35
+- made methods to delete tables, reservations, and restuarants
+
+victorC -- 2025-01-09 10:58
+- made method to add sample data to db
+
 markM -- 2025-10-09 11:00
 - Initialized and added outlines to __init__.py
 - Worked on functionalities for displaying restaurant list
