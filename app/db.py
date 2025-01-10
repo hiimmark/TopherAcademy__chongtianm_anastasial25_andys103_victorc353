@@ -51,6 +51,7 @@ def createTables():
         db.close()
 
         print("Tables successfully created \n")
+        return True
 
 #just call this when resetting db, it calls createTables
 #if not, call neither
@@ -58,14 +59,15 @@ def resetDB():
     if os.path.exists(DATABASE_NAME):
         os.remove(DATABASE_NAME)
         print("Resetting DB")
-        createTables()
+        return createTables()
     else:
         print("Cannot reset database as database does not exist")
         print("Creating database")
-        createTables()
+        return createTables()
 
  #returns true if successful, and false if not (email is identical to another user's)
  #all inputs are strings
+ #owner account = "owner", customer account = "customer"
 def createUser(email, password, type):
     print(f"Adding user {email}")
     db = sqlite3.connect(DATABASE_NAME)
@@ -104,7 +106,7 @@ def createRestaurant(name, openTime, closeTime, timeBetweenReserves, owner):
 #restaurant is string name of restaurant, numSeats is integer
 #returns true if successful, false if not (don't know why it wouldn't be)
 def createTable(restaurant, numSeats):
-    print(f"Creating table with {numSeats} at {restaurant}")
+    print(f"Creating table with {numSeats} seats at {restaurant}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
 
@@ -232,25 +234,73 @@ def checkLogin(email, password):
         print("Incorrect password")
         return False
 
-'''
-resetDB()
-print(createUser("joe", "smith", "owner"))
-print(createRestaurant("pizzaAAAA RUN", "8:40", "13:10", 12, "joe"))
-print(createRestaurant("pizzaAAAA RUN", "8:40", "13:10", 12, "joe"))
-print(createRestaurant("Bagel RUN", "8:40", "13:10", 12, "joe"))
-print(createTable("pizzaAAAA RUN", 8))
-print(createTable("pizzaAAAA RUN", 6))
-print(createTable("pizzaAAAA RUN", 5))
-print(createTable("pizzaAAAA RUN", 8))
-print(createReservation("mr smith", 1, 6, "2024-12-17-12:07"))
-print(createReservation("mr smith", 1, 7, "2024-12-17-12:07"))
-print(createReservation("mr smith", 1, 7, "2024-12-17-8:07"))
-print(createReservation("mr smith", 2, 5, "2024-12-17-8:50"))
-print(getRestaurants())
-print(getTables("pizzaAAAA RUN"))
-print(getReservations(1))
-print(getReservations(2))
-print(checkLogin("joe", "hi"))
-print(checkLogin("aaaa", "smith"))
-print(checkLogin("joe", "smith"))
-'''
+#tableID is integer (ID of table)
+#removes specified table from database
+#returns true (or false if something unexpected goes wrong)
+def delTable(tableID):
+    print(f"Deleting table {tableID}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    try:
+        c.execute("DELETE FROM TableData WHERE ID = ?", (tableID,))
+        print(f"Deleting reservations at table {tableID} as we are removing the table")
+        c.execute("DELETE FROM ReservationData WHERE tableID = ?", (tableID,))
+        db.commit()
+        db.close()
+        return True
+    except Exception as e:
+        print("Something went wrong")
+        return False
+
+#tableID is integer (ID of table that reservation is at)
+#time is string in the form "2024-12-27-13:10"
+#returns true (or false if something unexpected goes wrong)
+def delReservation(tableID, time):
+    print(f"Deleting reservation at table {tableID} at {time}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    try:
+        c.execute("DELETE FROM ReservationData WHERE (tableID, time) = (?, ?)", (tableID, time))
+        db.commit()
+        db.close()
+        return True
+    except:
+        print("Something went wrong")
+        return False
+
+#name is string of restaurant
+#returns true (or false if something unexpected goes wrong)
+def delRestaurant(name):
+    print(f"Deleting restaurant {name}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    try:
+        c.execute("DELETE FROM RestaurantData WHERE name = ?", (name,))
+        db.commit()
+        db.close()
+        tables = getTables(name)
+        print(f"Deleting tables from {name}")
+        for table in tables:
+            ID = table[0]
+            delTable(ID)
+        return True
+    except:
+        print("Something went wrong")
+        return False
+
+#will reset DB and add some data
+def createSampleData():
+    resetDB()
+    createUser("topher@hotmail.com", "mykolyk", "owner")
+    createUser("tberri50@stuy.edu", "instructorendorsed", "owner")
+    createRestaurant("#GUDFAM Bagels", "8:00", "15:00", 20, "topher@hotmail.com")
+    createRestaurant("Berri's Berry Smoothies", "7:00", "20:00", 30, "tberri50@stuy.edu")
+    createTable("#GUDFAM Bagels", 10)
+    createTable("#GUDFAM Bagels", 3)
+    createTable("#GUDFAM Bagels", 5)
+    createTable("Berri's Berry Smoothies", 1)
+    createTable("Berri's Berry Smoothies", 2)
+    createTable("Berri's Berry Smoothies", 4)
+    createUser("marge@stuy.edu", "cslab", "customer")
+    createReservation("marge@stuy.edu", 1, 2, "2025-6-27-13:10")
+    createReservation("marge@stuy.edu", 2, 3, "2025-6-27-14:10")
