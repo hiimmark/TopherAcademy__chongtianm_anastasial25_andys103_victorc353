@@ -8,10 +8,10 @@
 	</head>
 
 	<center>
-		<h2> Restaurant List> </h2> <br>
+		<h2> Restaurant List </h2> <br>
 	</center>
 
-	{% for rest in restaurnts %}
+	{% for rest in li %}
 	<h3> {{ rest[0] }} </h3>
 	<br>
 	<h4> Working Times: {{ rest[1] }}-{{ rest[2] }} </h4>
@@ -24,12 +24,13 @@
 		<button type="submit">Make Your Reservation!</button>
 	</form>
 
-	{% endif}
+	{% endif %}
+	<hr>
 	{% endfor %}
 
 	{% if mode == "manager" %}
-	<form action=/create/} method="GET">
-                <button type="submit">Add your own restaurant!</button>
+	<form action="/create/" method="GET">
+                <button >+ Add your own restaurant!</button>
         </form>
 	{% endif %}
 </html>

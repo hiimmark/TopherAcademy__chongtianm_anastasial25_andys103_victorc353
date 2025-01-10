@@ -23,8 +23,7 @@ def restaurants():
     mode = "manager" # session["mode"]
     name = "bob" # session["name"]
     li = db.getRestaurants()
-
-    return render_template("restaurants.html", mode = mode, name = name, li = li)
+    return render_template("restaurants.html", mode = mode, name = name, rest = li)
 
 def get_times(restaurant, time, numpeople):
     # return a 2d list of [[table ID, time]...]
@@ -33,12 +32,13 @@ def get_times(restaurant, time, numpeople):
 # FOR MANAGERS
 @app.route('/manage/<restaurant>')
 def manage(restaurant):
+        
     return "hi"
 
 # FOR CUSTOMERS
 @app.route('/reserve/<restaurant>')
 def reserve(restaurant):
-    return "hi"
+    
 
 if __name__ == "__main__":
     app.debug = True
