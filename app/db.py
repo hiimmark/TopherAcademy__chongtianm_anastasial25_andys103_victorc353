@@ -317,7 +317,3 @@ def createSampleData():
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-11:10")
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-13:10")
     createReservation("marge@stuy.edu", 2, 3, "2025-6-27-14:10")
-
-resetDB()
-createSampleData()
-print(getRestaurantReservations("#GUDFAM Bagels"))
