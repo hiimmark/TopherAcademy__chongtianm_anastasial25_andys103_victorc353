@@ -37,7 +37,9 @@ def manage(restaurant):
 # FOR CUSTOMERS
 @app.route('/reserve/<restaurant>')
 def reserve(restaurant):
-    return "hi"
+    li = db.getRestaurantReservations(restaurant)
+    print(li)
+    return render_template("reserve.html", restaurant = restaurant)
 
 if __name__ == "__main__":
     app.debug = True
