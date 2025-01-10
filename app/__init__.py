@@ -13,6 +13,20 @@ import db
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    return render_template("home.html")
+
+@app.route("/register", methods=['GET', "POST"])
+def register():
+    message=request.args.get('message', "")
+    return render_template("register.html", message=message)
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    message=request.args.get('message', "")
+    return render_template("login.html", message=message)
+
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
 @app.route('/', methods=['GET', 'POST'])
 def home():
