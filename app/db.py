@@ -125,12 +125,7 @@ def createTable(restaurant, numSeats):
 #reserverEmail, time are strings, tableID, numPeople are integers
 #time is a string in the form "2024-12-27-13:10"
 #returns true if successful, integer if not
-#0 if table ID provided does not exist
-#6 if there are not enough seats at the requested table
-#2 if the table is not linked to a Restaurant
-#3 if the restaurant is not open at the requested time
-#4 if another reservation is too close in time
-#5 if an error occurs while inserting into the db
+#String explaining error to user if unsuccesful
 #use output == True to check if its an integer or boolean (1 is not an output b/c 1==True is True in python)
 def createReservation(reserverEmail, tableID, numPeople, time):
     print(f"Creating reservation for {reserverEmail} at table {tableID} for {numPeople} people at {time}")
@@ -141,11 +136,11 @@ def createReservation(reserverEmail, tableID, numPeople, time):
 
     if row == None:
         print("Reservation failed because the table does not exist")
-        return 0 #no such table
+        return "Something went wrong"
 
     if numPeople > row[1]:
         print("Reservation failed due to a lack of seats at requested table")
-        return 6 #not enough seats
+        return "Not enough seats at requested table"
 
     wantedTime = datetime.strptime(time, "%Y-%m-%d-%H:%M")
 
@@ -154,14 +149,14 @@ def createReservation(reserverEmail, tableID, numPeople, time):
 
     if row == None:
         print("Reservation failed because no restaurant exists for said table")
-        return 2 #the table doesnt have a restaurant?
+        return "Something went wrong"
 
     start_time = datetime.strptime(row[0], "%H:%M").time()
     end_time = datetime.strptime(row[1], "%H:%M").time()
 
     if not (start_time <= wantedTime.time() <= end_time):
         print("Reservation failed because restaurant is not open at requested time")
-        return 3 #restaurant is not open
+        return "Restaurant is not open at selected time"
 
     timeDistance = timedelta(minutes=row[2])
 
@@ -172,7 +167,7 @@ def createReservation(reserverEmail, tableID, numPeople, time):
         reservationTime = datetime.strptime(reservation[0], "%Y-%m-%d-%H:%M")
         if(abs(wantedTime - reservationTime) < timeDistance):
             print("Reservation failed because another reservation is too close time-wise")
-            return 4 #another reservation too close
+            return "Another user has requested this table at a similar time"
 
     try:
         c.execute("INSERT INTO ReservationDATA VALUES (?, ?, ?, ?)", (reserverEmail, tableID, numPeople, time))
@@ -181,8 +176,8 @@ def createReservation(reserverEmail, tableID, numPeople, time):
         print("Reservation Added Successfully")
         return True
     except:
-        print("Reservation Failed??")
-        return 5
+        print("Reservation failed while adding to DB")
+        return "Something went wrong"
 
 #Returns list of tuples
 #Each tuple has (name, openTime, closeTime, timeBetweenReserves, owner)
