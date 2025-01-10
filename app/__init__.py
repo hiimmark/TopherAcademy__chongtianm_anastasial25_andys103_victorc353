@@ -23,7 +23,6 @@ def restaurants():
     mode = "manager" # session["mode"]
     name = "bob" # session["name"]
     li = db.getRestaurants()
-
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 def get_times(restaurant, time, numpeople):
