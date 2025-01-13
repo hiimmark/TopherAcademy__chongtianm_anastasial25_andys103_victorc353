@@ -28,3 +28,7 @@ victorC -- 2025-01-10 10:30
 
 victorC -- 2025-01-13 10:53
 - Added method to get all available tables at a restaurant by numppl and time to db
+
+markM -- 2025-10-13 11:00
+- Finished restaurants.html functionalities
+- Worked on back-end reserve system.
