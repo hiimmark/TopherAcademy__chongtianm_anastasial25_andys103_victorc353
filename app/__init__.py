@@ -27,13 +27,6 @@ def logout():
     session.pop('accountType', None)
     return redirect(url_for('login'))
 
-@app.route('/restaurants')
-def restaurants():
-    mode = "manager" # session["mode"]
-    name = "bob" # session["name"]
-    li = db.getRestaurants()
-    return render_template("restaurants.html", mode = mode, name = name, li = li)
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template("login.html")
@@ -49,11 +42,13 @@ def auth_login():
         session['accountType'] = db.checkLogin(email, password)
         return redirect('/')
     return render_template("login.html")
-
-
-def get_times(restaurant, time, numpeople):
-    # return a 2d list of [[table ID, time]...]
-    return "hi"
+  
+@app.route('/restaurants')
+def restaurants():
+    mode = "manager" # session["mode"]
+    name = "bob" # session["name"]
+    li = db.getRestaurants()
+    return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 # FOR MANAGERS
 @app.route('/manage/<restaurant>')
@@ -61,9 +56,20 @@ def manage(restaurant):
     return "hi"
 
 # FOR CUSTOMERS
-@app.route('/reserve/<restaurant>')
-def reserve(restaurant):
-    return "hi"
+@app.route('/reserve', methods = ['POST'])
+def reserve():
+    restaurant = request.form['restaurant']
+    val = db.getRestaurants()
+    to_ret = []
+    for x in val:
+        if x[0] == restaurant:
+            to_ret = x
+    time = (to_ret[1], to_ret[2])
+    return render_template("reserve.html", restaurant = restaurant, time = time)
+
+@app.route('/makeReservation', methods = ['POST'])
+def makeReservation():
+    pass
 
 if __name__ == "__main__":
     app.debug = True
