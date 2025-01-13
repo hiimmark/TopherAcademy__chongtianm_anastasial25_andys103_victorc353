@@ -312,3 +312,16 @@ def createSampleData():
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-11:10")
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-13:10")
     createReservation("marge@stuy.edu", 2, 3, "2025-6-27-14:10")
+
+#restaurant is restaurant's name, numPeople is number of people for the reservation, numPeople is the number of people
+#time is a string in the form "2024-12-27-13:10"
+#returns list of [tableID, numSeats] of available tables
+def getAvailableTables(restaurant, numPeople, time):
+    returner = []
+    tables = getTables(restaurant)
+    for table in tables:
+        if table[1] >= numPeople:
+            if createReservation("checking if works", table[0], numPeople, time):
+                returner.append([table[0], table[1]])
+            delReservation(table[0], time)
+    return returner
