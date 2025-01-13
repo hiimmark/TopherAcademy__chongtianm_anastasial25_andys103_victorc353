@@ -36,9 +36,7 @@ def restaurants():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("AAA")
     if request.method == 'POST':
-        print("BBB")
         email = request.form['email']
         password = request.form['password']
         if db.checkLogin(email, password) == False:
