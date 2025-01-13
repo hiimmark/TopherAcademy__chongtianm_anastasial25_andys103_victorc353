@@ -25,21 +25,26 @@ def restaurants():
     li = db.getRestaurants()
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
-def get_times(restaurant, time, numpeople):
-    # return a 2d list of [[table ID, time]...]
-    return "hi"
-
 # FOR MANAGERS
 @app.route('/manage/<restaurant>')
 def manage(restaurant):
     return "hi"
 
 # FOR CUSTOMERS
-@app.route('/reserve/<restaurant>')
-def reserve(restaurant):
-    li = db.getRestaurantReservations(restaurant)
-    print(li)
-    return render_template("reserve.html", restaurant = restaurant)
+@app.route('/reserve', methods = ['POST'])
+def reserve():
+    restaurant = request.form['restaurant']
+    val = db.getRestaurants()
+    to_ret = []
+    for x in val:
+        if x[0] == restaurant:
+            to_ret = x
+    time = (to_ret[1], to_ret[2])
+    return render_template("reserve.html", restaurant = restaurant, time = time)
+
+@app.route('/makeReservation', methods = ['POST'])
+def makeReservation():
+    pass
 
 if __name__ == "__main__":
     app.debug = True

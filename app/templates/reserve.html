@@ -5,6 +5,21 @@
 		<title> Make a Reservation in {{restaurant}} </title>
 		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 	</head>
-
 	
+	<body>
+		<center> <h2> Make your Reservation in {{ restaurant }} </h2>
+		<hr>	
+		<form action=/makeReservation method="POST">
+		<label for="appt">Enter a time for your reservation:</label>
+		<input type="time" name="time" min="{{ time[0] }}" max="{{ time[1] }}" required /> <br>
+		<small> Opening hours are from {{ time[0] }} to {{ time[1] }} </small> <br>
+		How many people? <br>
+		<input type="text" name="num" required /> <br>
+		<button type="submit">Submit!</button>
+		</form>
+
+		</center>
+	
+	</body>
+		
 </html>
