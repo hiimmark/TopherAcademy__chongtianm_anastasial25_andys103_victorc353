@@ -18,7 +18,7 @@ app.secret_key = 'your_secret_key'
 @app.route('/', methods=['GET', 'POST'])
 def homeBase():
     if('accountType' in session):
-        return render_template("home.html")
+        return redirect('/restaurants')
     return redirect(url_for('logout'))
 
 @app.route('/logout')
@@ -36,16 +36,18 @@ def restaurants():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("AAA")
+    return render_template("login.html")
+
+@app.route('/auth_login', methods=['GET', 'POST'])
+def auth_login():
     if request.method == 'POST':
-        print("BBB")
         email = request.form['email']
         password = request.form['password']
         if db.checkLogin(email, password) == False:
             return render_template("login.html")
         session['email'] = email
         session['accountType'] = db.checkLogin(email, password)
-        return redirect(url_for(''))
+        return redirect('/')
     return render_template("login.html")
 
 
