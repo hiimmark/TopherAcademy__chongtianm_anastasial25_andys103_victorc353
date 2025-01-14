@@ -16,12 +16,12 @@
 	<br>
 	<h4> Working Times: {{ rest[1] }}-{{ rest[2] }} </h4>
 	{% if rest[4] == name %}
-	<form action=/manage/{{ rest[0] }} method="GET">
-		<button type="submit">Manage Restaurant</button>
+	<form action=/manage method="POST">
+		<button name="restaurant" value= "{{ rest[0] }}" type="submit">Manage Your Restaurant</button>
 	</form>
 	{% else %}
-	<form action=/reserve/{{ rest[0] }} method="GET">
-		<button type="submit">Make Your Reservation!</button>
+	<form action=/reserve method="POST">
+		<button name="restaurant" value= "{{ rest[0] }}" type="submit">Make Your Reservation!</button>
 	</form>
 
 	{% endif %}

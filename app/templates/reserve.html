@@ -1,9 +1,31 @@
 <html>
 	<head>
-		<title> List of Restaurants </title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title> Make a Reservation in {{restaurant}} </title>
 		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 	</head>
+	
+	<body>
+		<center> <h2> Make your Reservation in {{ restaurant }} </h2>
+		<hr>	
+		<form action=/makeReservation method="POST">
+		<label for="appt">Enter a time for your reservation:</label>
+		<input type="time" name="time" min="{{ time[0] }}" max="{{ time[1] }}" required /> <br>
+		<small> Opening hours are from {{ time[0] }} to {{ time[1] }} </small> <br>
+		How many people? <br>
+		<select id="num" name="num">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+            <br>
+		<button type="submit" name="restaurant" value="{{ restaurant }}">Submit!</button>
+		</form>
+
+		</center>
+	
+	</body>
+		
 </html>
