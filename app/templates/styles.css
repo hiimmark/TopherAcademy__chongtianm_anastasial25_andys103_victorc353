@@ -59,3 +59,34 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 40%;
 }
+
+body
+{
+  font-family: "Open Sans";
+}
+#wrapper
+{
+  border: 1px solid #888;
+  display: inline-block;
+  padding:20px;
+  
+}
+
+.top-right-form {
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+}
+
+.top-right-form button {
+  background-color: #393f81;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.top-right-form button:hover {
+  background-color: #555;
+}

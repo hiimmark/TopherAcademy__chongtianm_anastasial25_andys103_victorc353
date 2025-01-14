@@ -4,33 +4,60 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Home</title>
-		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="styles.css">
 	</head>
 
 	<center>
 		<h2> Restaurant List </h2> <br>
 	</center>
+	<form action="/restaurants" method="POST" class="top-right-form">
+        <div>
+            <button type="submit">Restaurants</button>
+        </div>
+    </form>
+	<form action="/logout" method="POST" class="top-right-form">
+        <div>
+            <button type="submit">Logout</button>
+        </div>
+    </form>
+	{% if mode == "user" %}
+		{% for rest in li %}
+		<h3> {{ rest[0] }} </h3>
+		<br>
+		<h4> Working Times: {{ rest[1] }}-{{ rest[2] }} </h4>
+		{% if rest[4] == name %}
+		<form action=/manage method="POST">
+			<button name="restaurant" value= "{{ rest[0] }}" type="submit">Manage Your Restaurant</button>
+		</form>
+		{% else %}
+		<form action=/reserve method="POST">
+			<button name="restaurant" value= "{{ rest[0] }}" type="submit">Make Your Reservation!</button>
+		</form>
 
-	{% for rest in li %}
-	<h3> {{ rest[0] }} </h3>
-	<br>
-	<h4> Working Times: {{ rest[1] }}-{{ rest[2] }} </h4>
-	{% if rest[4] == name %}
-	<form action=/manage method="POST">
-		<button name="restaurant" value= "{{ rest[0] }}" type="submit">Manage Your Restaurant</button>
-	</form>
-	{% else %}
-	<form action=/reserve method="POST">
-		<button name="restaurant" value= "{{ rest[0] }}" type="submit">Make Your Reservation!</button>
-	</form>
-
+		{% endif %}
+		<hr>
+		{% endfor %}
 	{% endif %}
-	<hr>
-	{% endfor %}
 
 	{% if mode == "manager" %}
-	<form action="/create/" method="GET">
-                <button >+ Add your own restaurant!</button>
+		{% for rest in li %}
+		<h3> {{ rest[0] }} </h3>
+		<br>
+		<h4> Working Times: {{ rest[1] }}-{{ rest[2] }} </h4>
+		{% if rest[4] == name %}
+		<form action=/manage method="POST">
+			<button name="restaurant" value= "{{ rest[0] }}" type="submit">Manage Your Restaurant</button>
+		</form>
+		{% else %}
+		<form action=/reserve method="POST">
+			<button name="restaurant" value= "{{ rest[0] }}" type="submit">Make Your Reservation!</button>
+		</form>
+
+		{% endif %}
+		<hr>
+		{% endfor %}
+		<form action="/create" method="POST">
+            <button >+ Add your own restaurant!</button>
         </form>
 	{% endif %}
 </html>
