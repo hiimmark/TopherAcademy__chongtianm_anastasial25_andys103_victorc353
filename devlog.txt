@@ -49,3 +49,6 @@ andyS -- 2025-01-14 6:37
 - created water-tight flask account management (hopefully)
 - created ability for managers to view and create restaurants (tables and editing remain)
 - added flow to the website for easier access and testing purposes
+
+anastasiaL -- 2025-01-14 10:44
+- fixed register radios

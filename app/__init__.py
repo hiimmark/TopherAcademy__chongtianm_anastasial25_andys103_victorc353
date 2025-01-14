@@ -53,22 +53,9 @@ def register():
 @app.route('/auth_register', methods=['GET', 'POST'])
 def auth_register():
     if request.method == 'POST':
-        user = request.form['yes_no']
-        manager = request.form['yes_no']
+        usty = request.form['userType']
         email = request.form['email']
         password = request.form['password']
-        print(user)
-        print(type(user))
-        if user == "on":
-            usty = "user"
-        if manager == "on":
-            usty = "manager"
-            #BUG HERE! needs fixing where it always puts manager
-        else:
-            usty = "error"
-            print("error")
-            return("error")
-        print(usty)
         if db.createUser(email, password, usty) == False:
             message = "Invalid information: Account exists already"
             return render_template("register.html", message = message)
@@ -79,19 +66,13 @@ def auth_register():
         userType = db.checkLogin(email, password)
         session['accountType'] = userType
         return redirect('/')
-    return render_template("register.html")
+    return render_template("register.html")        
   
 @app.route('/restaurants', methods=['GET', 'POST'])
 def restaurants():
     if session.get("email") == None:
         return redirect("/")
     mode = session['accountType']
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
     print(mode)
     name = session["email"]
     if mode == "user":
