@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<title> List of Restaurants </title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Home</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+
+	<center>
+		<h2> Restaurant List </h2> <br>
+	</center>
+	<form action="/restaurants" method="POST" class="top-right-form">
+        <div>
+            <button type="submit">Restaurants</button>
+        </div>
+    </form>
+	<form action="/logout" method="POST" class="top-right-form">
+        <div>
+            <button type="submit">Logout</button>
+        </div>
+    </form>
+
+	{% if mode == "manager" %}
+        <h2> Owner: {{rest[4]}} </h2>
+        <br>
+        <h1> Restaurant Name: {{rest[0]}} </h1>
+        <h2> Edit </h2>
+        <h3> Opening Time: {{ rest[1] }} </h3>
+        <h4> Edit </h4>
+        <h3> Closing Time: {{ rest[2] }} </h3>
+        <h4> Edit </h4>
+		{% for rest in tb %}
+		<br>
+            <h5> {{tb[0]}} </h5>
+		<form action=/manage method="POST">
+			<button name="restaurant" value= "{{ rest[0] }}" type="submit">Manage Your Restaurant</button>
+		</form>
+		{% else %}
+		<form action=/reserve method="POST">
+			<button name="restaurant" value= "{{ rest[0] }}" type="submit">Make Your Reservation!</button>
+		</form>
+
+		{% endif %}
+		<hr>
+		{% endfor %}
+		<form action="/create" method="POST">
+            <button >+ Add your own restaurant!</button>
+        </form>
+	{% endif %}
+</html>
