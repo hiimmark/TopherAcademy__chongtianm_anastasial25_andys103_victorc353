@@ -54,15 +54,15 @@ def register():
 def auth_register():
     if request.method == 'POST':
         user = request.form['yes_no']
-        manager = request.form['yes_no']
+        owner = request.form['yes_no']
         email = request.form['email']
         password = request.form['password']
         print(user)
         print(type(user))
         if user == "on":
-            usty = "user"
-        if manager == "on":
-            usty = "manager"
+            usty = "customer"
+        if owner == "on":
+            usty = "owner"
             #BUG HERE! needs fixing where it always puts manager
         else:
             usty = "error"
@@ -80,7 +80,7 @@ def auth_register():
         session['accountType'] = userType
         return redirect('/')
     return render_template("register.html")
-  
+
 @app.route('/restaurants', methods=['GET', 'POST'])
 def restaurants():
     if session.get("email") == None:
@@ -94,9 +94,9 @@ def restaurants():
     print(mode)
     print(mode)
     name = session["email"]
-    if mode == "user":
+    if mode == "customer":
         li = db.getRestaurants()
-    elif mode == "manager":
+    elif mode == "owner":
         li = db.getRestaurantsOwner(name)
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
@@ -105,7 +105,7 @@ def restaurants():
 def manage(restaurant):
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     return "hi"
 
@@ -113,7 +113,7 @@ def manage(restaurant):
 def create():
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     return render_template("create.html")
 
@@ -121,7 +121,7 @@ def create():
 def creator():
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     if request.method == 'POST':
         name = request.form['name']
