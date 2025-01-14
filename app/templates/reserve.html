@@ -11,7 +11,7 @@
 		<hr>	
 		<form action="/restaurants" method="POST" class="top-right-form">
 			<div>
-				<button type="submit">Restaurants</button>
+				<button type="submit">Go Back</button>
 			</div>
 		</form>
 		<form action="/logout" method="POST" class="top-right-form">
@@ -21,9 +21,14 @@
 		</form>
 		<hr>
 		<form action=/makeReservation method="POST">
+		<label for="date">Preferred Date:</label>
+		<br>
+		<input type="date" id="date" name="date" value="{{ date }}", min = "{{ date }}"> 
+		<br>
 		<label for="appt">Enter a time for your reservation:</label>
 		<input type="time" name="time" min="{{ time[0] }}" max="{{ time[1] }}" required /> <br>
 		<small> Opening hours are from {{ time[0] }} to {{ time[1] }} </small> <br>
+		<br>
 		How many people? <br>
 		<select id="num" name="num">
             <option value="1">1</option>
