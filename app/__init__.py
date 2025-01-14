@@ -63,6 +63,7 @@ def auth_register():
             usty = "user"
         if manager == "on":
             usty = "manager"
+            #BUG HERE! needs fixing where it always puts manager
         else:
             usty = "error"
             print("error")
@@ -85,6 +86,13 @@ def restaurants():
     if session.get("email") == None:
         return redirect("/")
     mode = session['accountType']
+    print(mode)
+    print(mode)
+    print(mode)
+    print(mode)
+    print(mode)
+    print(mode)
+    print(mode)
     name = session["email"]
     if mode == "user":
         li = db.getRestaurants()
@@ -97,18 +105,24 @@ def restaurants():
 def manage(restaurant):
     if session.get("email") == None:
         return redirect("/")
+    if session.get("accountType") == "user":
+        return redirect("/restaurants")
     return "hi"
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     if session.get("email") == None:
         return redirect("/")
+    if session.get("accountType") == "user":
+        return redirect("/restaurants")
     return render_template("create.html")
 
 @app.route('/creator', methods=['GET', 'POST'])
 def creator():
     if session.get("email") == None:
         return redirect("/")
+    if session.get("accountType") == "user":
+        return redirect("/restaurants")
     if request.method == 'POST':
         name = request.form['name']
         open = request.form['open']
@@ -123,7 +137,7 @@ def creator():
     return redirect("/restaurants")
 
 # FOR CUSTOMERS
-@app.route('/reserve', methods = ['POST'])
+@app.route('/reserve', methods = ['GET', 'POST'])
 def reserve():
     if session.get("email") == None:
         return redirect("/")
@@ -136,7 +150,7 @@ def reserve():
     time = (to_ret[1], to_ret[2])
     return render_template("reserve.html", restaurant = restaurant, time = time)
 
-@app.route('/makeReservation', methods = ['POST'])
+@app.route('/makeReservation', methods = ['GET', 'POST'])
 def makeReservation():
     if session.get("email") == None:
         return redirect("/")
