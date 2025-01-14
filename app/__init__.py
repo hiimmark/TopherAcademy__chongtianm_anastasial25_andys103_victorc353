@@ -66,8 +66,8 @@ def auth_register():
         userType = db.checkLogin(email, password)
         session['accountType'] = userType
         return redirect('/')
-    return render_template("register.html")        
-  
+    return render_template("register.html")
+
 @app.route('/restaurants', methods=['GET', 'POST'])
 def restaurants():
     if session.get("email") == None:
@@ -75,9 +75,9 @@ def restaurants():
     mode = session['accountType']
     print(mode)
     name = session["email"]
-    if mode == "user":
+    if mode == "customer":
         li = db.getRestaurants()
-    elif mode == "manager":
+    elif mode == "owner":
         li = db.getRestaurantsOwner(name)
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
@@ -86,7 +86,7 @@ def restaurants():
 def manage(restaurant):
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     return "hi"
 
@@ -94,7 +94,7 @@ def manage(restaurant):
 def create():
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     return render_template("create.html")
 
@@ -102,7 +102,7 @@ def create():
 def creator():
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     if request.method == 'POST':
         name = request.form['name']
