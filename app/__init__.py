@@ -132,7 +132,8 @@ def reserve():
         if x[0] == restaurant:
             to_ret = x
     time = (to_ret[1], to_ret[2])
-    return render_template("reserve.html", restaurant = restaurant, time = time)
+    cur_date = datetime.today().strftime('%Y-%m-%d')
+    return render_template("reserve.html", restaurant = restaurant, time = time, date = cur_date)
 
 @app.route('/makeReservation', methods = ['GET', 'POST'])
 def makeReservation():
@@ -141,7 +142,16 @@ def makeReservation():
     time = request.form['time']
     num = request.form['num']
     restaurant = request.form["restaurant"]
-    return render_template("make_reservation.html", restaurant = restaurant)
+    date = request.form['date']
+    tables = db.getAvailableTables(restaurant, int(num), date+'-'+time)
+    for i in range(len(tables)):
+        tables[i].append(i+1)
+    return render_template("make_reservation.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
+
+@app.route('/reserveTable', methods = ['POST'])
+def reserveTable():
+    
+    pass
 
 if __name__ == "__main__":
     app.debug = True
