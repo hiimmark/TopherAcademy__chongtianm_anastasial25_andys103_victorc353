@@ -69,7 +69,10 @@ def reserve():
 
 @app.route('/makeReservation', methods = ['POST'])
 def makeReservation():
-    pass
+    time = request.form['time']
+    num = request.form['num']
+    restaurant = request.form["restaurant"]
+    return render_template("make_reservation.html", restaurant = restaurant)
 
 if __name__ == "__main__":
     app.debug = True
