@@ -79,6 +79,8 @@ def restaurants():
         li = db.getRestaurants()
     elif mode == "owner":
         li = db.getRestaurantsOwner(name)
+    else:
+        return redirect("/logout")
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 # FOR MANAGERS
