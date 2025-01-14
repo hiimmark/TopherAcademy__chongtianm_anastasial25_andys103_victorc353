@@ -28,7 +28,10 @@
 			Table ID: {{ table[0] }} <br>
 			Table Size: {{ table[1] }} people <br>
 			<form action="/reserveTable" method = 'POST'>
-				<button type = "submit" name = "reserve" value = "{{ table[0] }}"> Reserve Table! </button>
+				<input type="hidden" name="time" value = "{{ time }}">
+				<input type="hidden" name="date" value = "{{ date }}">
+				<input type="hidden" name="num" value = "{{ num }}">
+				<button type = "submit" name = "table" value = "{{ table[0] }}"> Reserve Table! </button>
 			</form>
 			<hr>
 		{% endfor %} 
