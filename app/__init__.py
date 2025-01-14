@@ -73,11 +73,12 @@ def restaurants():
     if session.get("email") == None:
         return redirect("/")
     mode = session['accountType']
-    print(mode)
     name = session["email"]
     if mode == "customer":
+        print("customer")
         li = db.getRestaurants()
     elif mode == "owner":
+        print("owner")
         li = db.getRestaurantsOwner(name)
     else:
         return redirect("/logout")
