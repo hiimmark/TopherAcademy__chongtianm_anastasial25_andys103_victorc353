@@ -6,7 +6,7 @@ P02: Devo Dining
 Time Spent: 998244353 hours
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import calendar, os
 from datetime import datetime
 import db
@@ -19,16 +19,17 @@ app.secret_key = 'your_secret_key'
 def homeBase():
     if('accountType' in session):
         return redirect('/restaurants')
-    return redirect(url_for('logout'))
+    return redirect(url_for('login'))
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('email', None)
     session.pop('accountType', None)
-    return redirect(url_for('login'))
+    return redirect("/")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("")
     return render_template("login.html")
 
 @app.route('/auth_login', methods=['GET', 'POST'])
@@ -37,27 +38,95 @@ def auth_login():
         email = request.form['email']
         password = request.form['password']
         if db.checkLogin(email, password) == False:
-            return render_template("login.html")
+            message = "Incorrect Login information"
+            return render_template("login.html", message = message)
         session['email'] = email
-        session['accountType'] = db.checkLogin(email, password)
+        userType = db.checkLogin(email, password)
+        session['accountType'] = userType
         return redirect('/')
     return render_template("login.html")
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template("register.html")
+
+@app.route('/auth_register', methods=['GET', 'POST'])
+def auth_register():
+    if request.method == 'POST':
+        user = request.form['yes_no']
+        manager = request.form['yes_no']
+        email = request.form['email']
+        password = request.form['password']
+        print(user)
+        print(type(user))
+        if user == "on":
+            usty = "user"
+        if manager == "on":
+            usty = "manager"
+        else:
+            usty = "error"
+            print("error")
+            return("error")
+        print(usty)
+        if db.createUser(email, password, usty) == False:
+            message = "Invalid information: Account exists already"
+            return render_template("register.html", message = message)
+        if db.checkLogin(email, password) == False:
+            message = "Incorrect Login information"
+            return render_template("login.html", message = message)
+        session['email'] = email
+        userType = db.checkLogin(email, password)
+        session['accountType'] = userType
+        return redirect('/')
+    return render_template("register.html")
   
-@app.route('/restaurants')
+@app.route('/restaurants', methods=['GET', 'POST'])
 def restaurants():
-    mode = "manager" # session["mode"]
-    name = "bob" # session["name"]
-    li = db.getRestaurants()
+    if session.get("email") == None:
+        return redirect("/")
+    mode = session['accountType']
+    name = session["email"]
+    if mode == "user":
+        li = db.getRestaurants()
+    elif mode == "manager":
+        li = db.getRestaurantsOwner(name)
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 # FOR MANAGERS
-@app.route('/manage/<restaurant>')
+@app.route('/manage/<restaurant>', methods=['GET', 'POST'])
 def manage(restaurant):
+    if session.get("email") == None:
+        return redirect("/")
     return "hi"
+
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    if session.get("email") == None:
+        return redirect("/")
+    return render_template("create.html")
+
+@app.route('/creator', methods=['GET', 'POST'])
+def creator():
+    if session.get("email") == None:
+        return redirect("/")
+    if request.method == 'POST':
+        name = request.form['name']
+        open = request.form['open']
+        close = request.form['close']
+        between = request.form['between']
+        owner = session["email"]
+        if db.createRestaurant(name, open, close, between, owner):
+            return redirect("/restaurants")
+        else:
+            flash("Error: Could not create the restaurant. Please try again.")
+            return redirect("/create")
+    return redirect("/restaurants")
 
 # FOR CUSTOMERS
 @app.route('/reserve', methods = ['POST'])
 def reserve():
+    if session.get("email") == None:
+        return redirect("/")
     restaurant = request.form['restaurant']
     val = db.getRestaurants()
     to_ret = []
@@ -69,6 +138,8 @@ def reserve():
 
 @app.route('/makeReservation', methods = ['POST'])
 def makeReservation():
+    if session.get("email") == None:
+        return redirect("/")
     time = request.form['time']
     num = request.form['num']
     restaurant = request.form["restaurant"]
