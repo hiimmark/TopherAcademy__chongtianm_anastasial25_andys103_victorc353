@@ -56,3 +56,6 @@ anastasiaL -- 2025-01-14 10:44
 markM -- 2025-01-14 11:00
 - finished form for sending reservation information
 - worked in display for available reservations
+
+markM -- 2025-01-14 16:00
+- Finished backend funcationalities of customer side.
