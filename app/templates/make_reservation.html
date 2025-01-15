@@ -30,11 +30,11 @@
 		<div class="m-4">
 			<center><br><h1>Available reservations at {{restaurant}}</h1></center>
 
-		<h2> Showing available tables for {{ date }} at {{ time }} for {{ num }} people </h2>
+		<h3> Showing available tables on {{ date }} at {{ time }} for {{ num }} people </h3>
         <ul class="list-group">
 		{% for table in tables %}
             <li class="list-group-item">
-			<h3> Option {{ table[2] }} </h3> <br>
+			<h4> Option {{ table[2] }} </h4>
 			Table Size: {{ table[1] }} people <br>
 			<form action="/reserveTable" method = 'POST'>
 				<input type="hidden" name="time" value = "{{ time }}">

@@ -67,3 +67,7 @@ anastasiaL -- 2025-01-15 10:15
 
 markM -- 2024-01-15 11:15
 - bugfixes in database and reservation logic
+
+anastasiaL -- 2025-01-15 13:16
+- added formatting to make_reservation.html
+- added formatting to reserve_table.html
