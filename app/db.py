@@ -35,7 +35,9 @@ def createTables():
                 CREATE TABLE IF NOT EXISTS TableData (
                     ID INTEGER PRIMARY KEY,
                     restaurant TEXT NOT NULL,
-                    numSeats INTEGER NOT NULL)
+                    numSeats INTEGER NOT NULL,
+                    X INTEGER NOT NULL,
+                    Y INTEGER NOT NULL)
             ''')
 
         #Reservation Info
@@ -105,13 +107,14 @@ def createRestaurant(name, openTime, closeTime, timeBetweenReserves, owner):
 
 #restaurant is string name of restaurant, numSeats is integer
 #returns true if successful, false if not (don't know why it wouldn't be)
-def createTable(restaurant, numSeats):
+#x, y are ints
+def createTable(restaurant, numSeats, x, y):
     print(f"Creating table with {numSeats} seats at {restaurant}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
 
     try:
-        c.execute('INSERT INTO TableData (restaurant, numSeats) VALUES (?, ?)', (restaurant, numSeats))
+        c.execute('INSERT INTO TableData (restaurant, numSeats, X, Y) VALUES (?, ?, ?, ?)', (restaurant, numSeats, x, y))
         db.commit()
         db.close()
         print("Successfully added table")
@@ -200,12 +203,12 @@ def getRestaurantsOwner(owner):
 
 #restaurant is string (name of restaurant)
 #Returns list of tuples
-#Each tuple has (ID, numSeats)
+#Each tuple has (ID, numSeats, x, y)
 def getTables(restaurant):
     print(f"Getting all tables for {restaurant}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
-    c.execute("SELECT ID, numSeats FROM TableData WHERE restaurant = ?", (restaurant,))
+    c.execute("SELECT ID, numSeats, X, Y FROM TableData WHERE restaurant = ?", (restaurant,))
     return c.fetchall()
 
 #restaurant is integer (ID of table)
@@ -335,4 +338,3 @@ def getAvailableTables(restaurant, numPeople, time):
                 returner.append([table[0], table[1]])
             delReservation(table[0], time)
     return returner
-
