@@ -84,14 +84,30 @@ def restaurants():
         return redirect("/logout")
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
+# FOR OWNERS
+@app.route('/manage', methods=['POST'])
+def manage_post():
+    if session.get("email") is None:
+        return redirect("/")
+    if session.get("accountType") == "customer":
+        return redirect("/restaurants")
+    restaurant = request.form.get("restaurant")
+    if not restaurant:
+        return "Error: Restaurant name is missing."
+    
+    return manage(details = restaurant)
+
 # FOR MANAGERS
 @app.route('/manage/<restaurant>', methods=['GET', 'POST'])
-def manage(restaurant):
+def manage(details=None):
     if session.get("email") == None:
         return redirect("/")
     if session.get("accountType") == "customer":
         return redirect("/restaurants")
-    return "hi"
+    # details = db.getRestaurantsInfo(restaurant)
+    if not details:
+        return redirect("/restaurants")
+    return render_template("manage.html", rest = details)
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():

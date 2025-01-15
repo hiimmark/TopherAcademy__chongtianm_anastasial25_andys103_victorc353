@@ -188,6 +188,13 @@ def getRestaurants():
     c.execute("SELECT name, openTime, closeTime, timeBetweenReserves, owner FROM RestaurantData")
     return c.fetchall()
 
+def getRestaurantsInfo(name):
+    print(f"Getting Info of Restaurant {name}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    c.execute("SELECT name, openTime, closeTime, timeBetweenReserves, owner FROM RestaurantData WHERE name = ?", (name,))
+    return c.fetchall()
+
 #Returns list of tuples
 #Each tuple has (name, openTime, closeTime, timeBetweenReserves, owner)
 #Only selects from values where the owner is selected
