@@ -45,8 +45,16 @@
 			<ul class="list-group">
 				<li class="list-group-item">
 					<form action=/creator method="POST">
-						<label for="name">Restaurant Name: </label>
-						<input type="text" class="form-control" id="name" name="name" style="width: 300px;" required>
+
+
+                        <div class="row g-3 align-items-center">
+                          <div class="col-auto">
+                            <label for="name" class="col-form-label">Restaurant Name:</label>
+                          </div>
+                          <div class="col-auto">
+                            <input type="text" id="name" class="form-control" name="name" aria-describedby="passwordHelpInline" required>
+                          </div>
+                        </div>
 						<br>
 						<label name="open" for="appt">Opening time:</label>
 						<input type="time" name="open" min="0:00" max="23:59" required /> <br>
