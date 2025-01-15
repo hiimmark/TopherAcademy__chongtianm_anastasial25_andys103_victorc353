@@ -92,20 +92,34 @@ def manage_post():
     restaurant = request.form.get("restaurant")
     if not restaurant:
         return "Error: Restaurant name is missing."
+    print(restaurant)
+    rest = restaurant[1:-1].split(",")
+    print(type(restaurant))
+    print(rest)
+    print(type(rest))
+    restA = []
+    a = 0
+    for (i) in rest:
+        if a == 0:
+            restA.append(i[1:-1])
+        else:
+            restA.append(i[2:-1])
+        print(f"hi: {i}")
+        a += 1
     
-    return manage(details = restaurant)
+    return render_template("manage.html", rest = restA)
 
 # FOR MANAGERS
-@app.route('/manage/<restaurant>', methods=['GET', 'POST'])
-def manage(details=None):
-    if session.get("email") == None:
-        return redirect("/")
-    if session.get("accountType") == "customer":
-        return redirect("/restaurants")
-    # details = db.getRestaurantsInfo(restaurant)
-    if not details:
-        return redirect("/restaurants")
-    return render_template("manage.html", rest = details)
+#@app.route('/manage/<restaurant>', methods=['GET', 'POST'])
+#def manage(details):
+#    if session.get("email") == None:
+#        return redirect("/")
+#    if session.get("accountType") == "customer":
+#        return redirect("/restaurants")
+#    # details = db.getRestaurantsInfo(restaurant)
+#    if not details:
+#        return redirect("/restaurants")
+#    return render_template("manage.html", rest = details)
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():

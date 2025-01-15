@@ -20,15 +20,28 @@
             <button type="submit">Logout</button>
         </div>
     </form>
+    <script>
+    function change()
+    {
+        var elem = document.getElementById("myButton1");
+        if (elem.value=="Close Curtain") elem.value = "Open Curtain";
+        else elem.value = "Close Curtain";
+    }
 
+    </script>
+    
 	{% if mode != "customer" %}
         <h2> Owner: {{rest[4]}} </h2>
         <br>
         <h1> Restaurant Name: {{rest[0]}} </h1>
-        <h2> Edit </h2>
+        <h2 id="myButton1"> Edit </h2>
+        <input onclick="change()" type="button" value="Open Curtain" id="myButton1"></input>
         <h3> Opening Time: {{ rest[1] }} </h3>
         <h4> Edit </h4>
         <h3> Closing Time: {{ rest[2] }} </h3>
+        <h4> Edit </h4>
+        
+        <h3> Time between reservations: {{ rest[3] }} </h3>
         <h4> Edit </h4>
 		{% for rest in tb %}
 		<br>
