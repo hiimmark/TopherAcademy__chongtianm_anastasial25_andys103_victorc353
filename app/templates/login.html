@@ -29,7 +29,17 @@
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-                <p>{{message}}</p>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    <div class="container mt-3">
+                      {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" role="alert">
+                          {{ message }}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                {% endwith %}
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -54,7 +64,8 @@
                 </form>
 
                   <form action = "/register" method = "POST">
-                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account?</p>
+                    Don't have an account?
+                    <br><br>
                     <button type="submit" class="">Register here</button>
                 </form>
 
@@ -78,4 +89,4 @@
   <li class="list-group-item">And a fifth one</li>
 </ul>
 use this code for reference in restaurant.html
---!>
+-->

@@ -15,6 +15,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
 
+db.createSampleData()
+
 @app.route('/', methods=['GET', 'POST'])
 def homeBase():
     if('accountType' in session):
@@ -38,8 +40,8 @@ def auth_login():
         email = request.form['email']
         password = request.form['password']
         if db.checkLogin(email, password) == False:
-            message = "Incorrect Login information"
-            return render_template("login.html", message = message)
+            flash("Invalid login information", 'danger')  # Show error message
+            return redirect('/login')
         session['email'] = email
         userType = db.checkLogin(email, password)
         session['accountType'] = userType
@@ -57,14 +59,10 @@ def auth_register():
         email = request.form['email']
         password = request.form['password']
         if db.createUser(email, password, usty) == False:
-            message = "Invalid information: Account exists already"
-            return render_template("register.html", message = message)
-        if db.checkLogin(email, password) == False:
-            message = "Incorrect Login information"
-            return render_template("login.html", message = message)
+            flash("Invalid: Account exists already", 'danger')  # Show error message
+            return redirect('/register')
         session['email'] = email
-        userType = db.checkLogin(email, password)
-        session['accountType'] = userType
+        session['accountType'] = usty
         return redirect('/')
     return render_template("register.html")
 
