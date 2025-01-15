@@ -114,7 +114,7 @@ def creator():
         if db.createRestaurant(name, open, close, between, owner):
             return redirect("/restaurants")
         else:
-            flash("Error: Could not create the restaurant. Please try again.")
+            flash("Error: Could not create the restaurant. Please try again.", 'danger')
             return redirect("/create")
     return redirect("/restaurants")
 
