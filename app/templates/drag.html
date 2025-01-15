@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/drag.css">
+</head>
+<body data-restaurant-name="{{ restaurant }}">
 
-  </head>
+    <div id="grid"></div>
 
-<body>
-<p>Drag the image into the rectangle:</p>
-<div id="div1"></div>
-<div id="div2"></div>
-<img class="dragitem" id="drag1" src="http://localhost/source1.png" draggable="true">
-<img class="dragitem" id="drag2" src="http://localhost/source1.png" draggable="true">
-<img class="dragitem" id="drag3" src="http://localhost/source1.png" draggable="true">
-<img class="dragitem" id="drag4" src="http://localhost/source1.png" draggable="true">
-<img class="dragitem" id="drag5" src="http://localhost/source1.png" draggable="true">
+    <div id="imageHome">
+        <img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag2" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag3" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag4" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag5" src="../static/table.jpg" draggable="true">
+    </div>
+
+    <script src="../static/drag.js"></script>
 </body>
 </html>
-<script src="../static/drag.js"></script>

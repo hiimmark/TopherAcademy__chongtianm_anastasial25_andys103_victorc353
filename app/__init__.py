@@ -6,16 +6,15 @@ P02: Devo Dining
 Time Spent: 998244353 hours
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import calendar, os
 from datetime import datetime
 import db
+import resetToSample #this resets db
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
-
-db.createSampleData()
 
 @app.route('/', methods=['GET', 'POST'])
 def homeBase():
@@ -83,13 +82,17 @@ def restaurants():
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 # FOR MANAGERS
-@app.route('/manage/<restaurant>', methods=['GET', 'POST'])
-def manage(restaurant):
+@app.route('/manage', methods=['GET', 'POST'])
+def manage():
     if session.get("email") == None:
         return redirect("/")
     if session.get("accountType") == "customer":
         return redirect("/restaurants")
-    return "hi"
+
+    if request.method == "POST":
+        return render_template("drag.html", restaurant=request.form['restaurant'])
+
+    return redirect("/logout") #should never go here
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -154,6 +157,25 @@ def reserveTable():
     num = request.form['num']
     res = db.createReservation(session['email'], table, int(num), date+"-"+time)
     return render_template("reserve_table.html", resp = res)
+
+@app.route('/add_table', methods=['POST'])
+def add_table():
+    try:
+        data = request.get_json()
+        response = {'message': 'Table added successfully'}
+
+        print(data)
+        restaurant = data.get("restaurant_name")
+        x = data.get("x")
+        y = data.get("y")
+        seats = data.get("seats")
+        db.createTable(restaurant, seats, x, y)
+
+        return jsonify(response), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 
 if __name__ == "__main__":
     app.debug = True
