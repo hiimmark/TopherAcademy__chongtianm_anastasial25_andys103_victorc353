@@ -20,7 +20,7 @@
             <button type="submit">Logout</button>
         </div>
     </form>
-	{% if mode == "user" %}
+	{% if mode == "customer" %}
 		{% for rest in li %}
 		<h3> {{ rest[0] }} </h3>
 		<br>
@@ -39,7 +39,7 @@
 		{% endfor %}
 	{% endif %}
 
-	{% if mode == "manager" %}
+	{% if mode == "owner" %}
 		{% for rest in li %}
 		<h3> {{ rest[0] }} </h3>
 		<br>

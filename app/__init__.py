@@ -53,22 +53,9 @@ def register():
 @app.route('/auth_register', methods=['GET', 'POST'])
 def auth_register():
     if request.method == 'POST':
-        user = request.form['yes_no']
-        manager = request.form['yes_no']
+        usty = request.form['userType']
         email = request.form['email']
         password = request.form['password']
-        print(user)
-        print(type(user))
-        if user == "on":
-            usty = "user"
-        if manager == "on":
-            usty = "manager"
-            #BUG HERE! needs fixing where it always puts manager
-        else:
-            usty = "error"
-            print("error")
-            return("error")
-        print(usty)
         if db.createUser(email, password, usty) == False:
             message = "Invalid information: Account exists already"
             return render_template("register.html", message = message)
@@ -80,24 +67,21 @@ def auth_register():
         session['accountType'] = userType
         return redirect('/')
     return render_template("register.html")
-  
+
 @app.route('/restaurants', methods=['GET', 'POST'])
 def restaurants():
     if session.get("email") == None:
         return redirect("/")
     mode = session['accountType']
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
-    print(mode)
     name = session["email"]
-    if mode == "user":
+    if mode == "customer":
+        print("customer")
         li = db.getRestaurants()
-    elif mode == "manager":
+    elif mode == "owner":
+        print("owner")
         li = db.getRestaurantsOwner(name)
+    else:
+        return redirect("/logout")
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 # FOR MANAGERS
@@ -105,7 +89,7 @@ def restaurants():
 def manage(restaurant):
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     return "hi"
 
@@ -113,7 +97,7 @@ def manage(restaurant):
 def create():
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     return render_template("create.html")
 
@@ -121,7 +105,7 @@ def create():
 def creator():
     if session.get("email") == None:
         return redirect("/")
-    if session.get("accountType") == "user":
+    if session.get("accountType") == "customer":
         return redirect("/restaurants")
     if request.method == 'POST':
         name = request.form['name']
@@ -148,7 +132,8 @@ def reserve():
         if x[0] == restaurant:
             to_ret = x
     time = (to_ret[1], to_ret[2])
-    return render_template("reserve.html", restaurant = restaurant, time = time)
+    cur_date = datetime.today().strftime('%Y-%m-%d')
+    return render_template("reserve.html", restaurant = restaurant, time = time, date = cur_date)
 
 @app.route('/makeReservation', methods = ['GET', 'POST'])
 def makeReservation():
@@ -157,7 +142,16 @@ def makeReservation():
     time = request.form['time']
     num = request.form['num']
     restaurant = request.form["restaurant"]
-    return render_template("make_reservation.html", restaurant = restaurant)
+    date = request.form['date']
+    tables = db.getAvailableTables(restaurant, int(num), date+'-'+time)
+    for i in range(len(tables)):
+        tables[i].append(i+1)
+    return render_template("make_reservation.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
+
+@app.route('/reserveTable', methods = ['POST'])
+def reserveTable():
+    
+    pass
 
 if __name__ == "__main__":
     app.debug = True

@@ -9,7 +9,32 @@
 	<body>
 		<center> <h2> Available Reservations in {{ restaurant }} </h2>
 		<hr>
+		<form action="/restaurants" method="POST" class="top-right-form">
+			<div>
+				<button type="submit">Return to Restaurant List</button>
+			</div>
+		</form>
+		<form action="/logout" method="POST" class="top-right-form">
+			<div>
+				<button type="submit">Logout</button>
+			</div>
+		</form>
+		<hr>
 
+		<h2> Showing available tables for {{ date }} at {{ time }} for {{ num }} people </h2>
+
+		{% for table in tables %}
+			<h3> Option {{ table[2] }} </h3> <br>
+			Table ID: {{ table[0] }} <br>
+			Table Size: {{ table[1] }} people <br>
+			<form action="/reserveTable" method = 'POST'>
+				<input type="hidden" name="time" value = "{{ time }}">
+				<input type="hidden" name="date" value = "{{ date }}">
+				<input type="hidden" name="num" value = "{{ num }}">
+				<button type = "submit" name = "table" value = "{{ table[0] }}"> Reserve Table! </button>
+			</form>
+			<hr>
+		{% endfor %} 
 
 		</center>
 
