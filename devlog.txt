@@ -63,3 +63,6 @@ markM -- 2025-01-14 16:00
 anastasiaL -- 2024-01-15 10:15
 - added flashes to login and register html and flask
 - added formatting to restaurants.html and create.html
+
+markM -- 2024-01-15 11:15
+- bugfixes in database and reservation logic
