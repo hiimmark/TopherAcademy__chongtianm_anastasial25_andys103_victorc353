@@ -174,7 +174,7 @@ def createReservation(reserverEmail, tableID, numPeople, time):
         db.commit()
         db.close()
         print("Reservation Added Successfully")
-        return True
+        return "Reservation Added Successfully"
     except:
         print("Reservation failed while adding to DB")
         return "Something went wrong"
@@ -342,3 +342,4 @@ def getAvailableTables(restaurant, numPeople, time):
                 returner.append([table[0], table[1]])
             delReservation(table[0], time)
     return returner
+

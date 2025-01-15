@@ -15,6 +15,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
 
+db.createSampleData()
+
 @app.route('/', methods=['GET', 'POST'])
 def homeBase():
     if('accountType' in session):
@@ -38,8 +40,8 @@ def auth_login():
         email = request.form['email']
         password = request.form['password']
         if db.checkLogin(email, password) == False:
-            message = "Incorrect Login information"
-            return render_template("login.html", message = message)
+            flash("Invalid login information", 'danger')  # Show error message
+            return redirect('/login')
         session['email'] = email
         userType = db.checkLogin(email, password)
         session['accountType'] = userType
@@ -57,14 +59,10 @@ def auth_register():
         email = request.form['email']
         password = request.form['password']
         if db.createUser(email, password, usty) == False:
-            message = "Invalid information: Account exists already"
-            return render_template("register.html", message = message)
-        if db.checkLogin(email, password) == False:
-            message = "Incorrect Login information"
-            return render_template("login.html", message = message)
+            flash("Invalid: Account exists already", 'danger')  # Show error message
+            return redirect('/register')
         session['email'] = email
-        userType = db.checkLogin(email, password)
-        session['accountType'] = userType
+        session['accountType'] = usty
         return redirect('/')
     return render_template("register.html")
 
@@ -132,7 +130,7 @@ def creator():
         if db.createRestaurant(name, open, close, between, owner):
             return redirect("/restaurants")
         else:
-            flash("Error: Could not create the restaurant. Please try again.")
+            flash("Error: Could not create the restaurant. Please try again.", 'danger')
             return redirect("/create")
     return redirect("/restaurants")
 
@@ -166,8 +164,12 @@ def makeReservation():
 
 @app.route('/reserveTable', methods = ['POST'])
 def reserveTable():
-    
-    pass
+    time = request.form['time']
+    date = request.form['date']
+    table = request.form['table']
+    num = request.form['num']
+    res = db.createReservation(session['email'], table, int(num), date+"-"+time)
+    return render_template("reserve_table.html", resp = res)
 
 if __name__ == "__main__":
     app.debug = True
