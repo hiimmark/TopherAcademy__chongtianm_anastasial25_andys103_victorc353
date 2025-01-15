@@ -148,8 +148,12 @@ def makeReservation():
 
 @app.route('/reserveTable', methods = ['POST'])
 def reserveTable():
-    
-    pass
+    time = request.form['time']
+    date = request.form['date']
+    table = request.form['table']
+    num = request.form['num']
+    res = db.createReservation(session['email'], table, int(num), date+"-"+time)
+    return render_template("reserve_table.html", resp = res)
 
 if __name__ == "__main__":
     app.debug = True
