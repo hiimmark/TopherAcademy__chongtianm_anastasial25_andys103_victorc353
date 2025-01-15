@@ -60,9 +60,10 @@ markM -- 2025-01-14 11:00
 markM -- 2025-01-14 16:00
 - Finished backend funcationalities of customer side.
 
-anastasiaL -- 2024-01-15 10:15
+anastasiaL -- 2025-01-15 10:15
 - added flashes to login and register html and flask
 - added formatting to restaurants.html and create.html
+- added formatting to reserve.html
 
 markM -- 2024-01-15 11:15
 - bugfixes in database and reservation logic
