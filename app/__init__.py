@@ -81,6 +81,14 @@ def restaurants():
     elif mode == "owner":
         print("owner")
         li = db.getRestaurantsOwner(name)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(type(li))
+        print(li)
+        print(li[0])
+        print(type(li[0]))
+        print(li[0][0])
+        print(type(li[0][0]))
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")
     else:
         return redirect("/logout")
     return render_template("restaurants.html", mode = mode, name = name, li = li)
@@ -102,15 +110,23 @@ def manage_post():
         print(restaurant)
     else:
         print(3)
+        print(session.get("restaurant"))
         restaurant1 = session.get("restaurant")
         print(restaurant1)
         print(type(restaurant1))
+        print(restaurant1[0])
+        print(type(restaurant1[0]))
+        print("HEYYYY!!!!")
         print(restaurant1[0][0])
         print(type(restaurant1[0][0]))
         restaurant = db.getRestaurantsInfo(restaurant1[0][0])
         session["restaurant"] = restaurant
+        print(restaurant)
+        print(type(restaurant))
+        print("ello mate")
     if not restaurant:
         return "Error: Restaurant name is missing."
+    print("hiii")
     print(restaurant)
     print(type(restaurant))
     rest = restaurant[0]
@@ -131,9 +147,9 @@ def update():
     if (num == 2 or num == "2"):
         print(f"lsdds: {field_name}")
         print(type(field_name))
-        print(restA[0])
-        print(type(restA[0]))
-        ls = db.updateRestaurantOpen(restA[0], field_name)
+        print(restA[0][2:-1])
+        print(type(restA[0][2:-1]))
+        ls = db.updateRestaurantOpen(restA[0][2:-1], field_name)
         print(f"ls: {ls}")
     print(f"time{field_name} ttoal {new_val} num {num}")
     return redirect("/manage")

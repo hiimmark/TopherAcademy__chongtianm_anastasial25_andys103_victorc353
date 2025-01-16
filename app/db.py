@@ -364,8 +364,7 @@ def updateRestaurantOpen(name, open):
     c = db.cursor()
 
     try:
-        command = f"UPDATE RestaurantData SET openTime = ? WHERE name = ?", (open, name)
-        c.execute(command)
+        c.execute("UPDATE RestaurantData SET openTime = ? WHERE name = ?", (open, name,))
         db.commit()
         db.close()
         print("done")
