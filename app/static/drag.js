@@ -15,7 +15,7 @@ function drop(ev) {
     const x = ev.target.dataset.x;
     const y = ev.target.dataset.y;
 
-    const seats = prompt(`How many seats for table ${data}?`, "6");
+    const seats = prompt(`How many seats for this table?`, "4");
 
     if (seats && !isNaN(seats) && parseInt(seats, 10) > 0) {
         ev.target.appendChild(element);
