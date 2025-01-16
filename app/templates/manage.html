@@ -1,10 +1,13 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title> Owner </title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Home</title>
-		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="../static/drag.css">
+		<link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+		<link rel="stylesheet" href="../static/styles.css">
 	</head>
 
 	<center>
@@ -15,6 +18,7 @@
             <button type="submit">Restaurants</button>
         </div>
     </form>
+	<br>
 	<form action="/logout" method="POST" class="top-right-form">
         <div>
             <button type="submit">Logout</button>
@@ -26,7 +30,6 @@
 			{% if mode != "customer" %}
 				<h2> Owner: {{rest[4]}} </h2>
 				<br>
-				<h1> Restaurant Name: {{rest[0]}} </h1>
 				<h1> Restaurant Name: <span id="restaurantName">{{rest[0]}}</span></h1>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[0] }}">
@@ -59,55 +62,34 @@
 			{% endif %}
 		</div>
 		<div class="column">
-			<div data-num = {{num}} data-date = {{date}} data-time = {{time}}>
-				<center>
-					<h2>Available Reservations in {{ restaurant }}</h2>
-					<hr>
-		
-					<h2>Showing available tables for {{ date }} at {{ time }} for {{ num }} people</h2>
-		
-					<!-- Grid Container for Tables -->
-					<div id="grid" class="grid grid-cols-10 gap-2 mt-4">
-						<!-- Jinja loop to populate tables -->
-						{% for table in tables %}
-							<img
-								class="table cursor-pointer"
-								src="../static/table.jpg"
-								data-id="{{ table[0] }}"
-								data-size="{{ table[1] }}"
-					data-x-coor="{{ table[2] }}"
-					data-y-coor="{{ table[3] }}">
-						{% endfor %}
-					</div>
-				</center>
-		
-				<script src="../static/reserveTables.js"></script>
+			<div data-restaurant-name="{{ restaurant }}">
+
+				<div id="grid"></div>
+			
+				<div id="imageHome">
+					<img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
+					{% for table in tables %}
+					<img
+					class="table"
+					data-id="{{ table.id }}"
+					src="../static/table.jpg"
+					data-x-coor="{{ table.x }}"
+					data-y-coor="{{ table.y }}"
+					>
+					{% endfor %}
+				</div>
+			
 				<script src="../static/drag.js"></script>
 				<script src="../static/displayTables.js"></script>
-		
+			
+				<div class="mrt ml-auto">
+				    <ul class="navbar-nav">
+					    <a class="nav-link" href="/">Back</a>
+				    </ul>
+				</div>
 			</div>
 		</div>
 	</div>
-</body>
-<body data-restaurant-name="{{ restaurant }}">
-
-    <div id="grid"></div>
-
-    <div id="imageHome">
-        <img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
-        <img class="dragitem" id="drag2" src="../static/table.jpg" draggable="true">
-        <img class="dragitem" id="drag3" src="../static/table.jpg" draggable="true">
-        <img class="dragitem" id="drag4" src="../static/table.jpg" draggable="true">
-        <img class="dragitem" id="drag5" src="../static/table.jpg" draggable="true">
-    </div>
-
-    <script src="../static/drag.js"></script>
-
-    <div class="mrt ml-auto">
-      <ul class="navbar-nav">
-        <a class="nav-link" href="/">Back</a>
-      </ul>
-      </div>
 </body>
 </html>
 
