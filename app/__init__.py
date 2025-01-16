@@ -159,7 +159,9 @@ def reserve():
     for x in val:
         if x[0] == restaurant:
             to_ret = x
-    time = (to_ret[1], to_ret[2])
+    time = [to_ret[1], to_ret[2]]
+    if len(time[0]) == 4:
+        time[0] = "0" + time[0]
     cur_date = datetime.today().strftime('%Y-%m-%d')
     return render_template("reserve.html", restaurant = restaurant, time = time, date = cur_date)
 
