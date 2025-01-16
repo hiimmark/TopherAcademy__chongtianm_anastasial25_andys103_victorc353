@@ -19,6 +19,13 @@
     cursor: grab;
 }
 
+.table {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    cursor: grab;
+}
+
 #imageContainer {
     display: flex;
     gap: 10px;
