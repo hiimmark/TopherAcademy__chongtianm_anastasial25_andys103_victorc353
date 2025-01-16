@@ -38,6 +38,7 @@ function drop(ev) {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Success:", data);
+                newTable()
             })
             .catch((error) => {
                 console.error("Failure:", error);
@@ -70,3 +71,17 @@ const draggables = document.querySelectorAll(".dragitem");
 draggables.forEach((draggable) => {
     draggable.addEventListener("dragstart", drag);
 });
+
+
+function newTable(){
+  const newTable = document.createElement("img");
+  newTable.className = "dragitem";
+  newTable.id = `drag${Date.now()}`; // Unique ID
+  newTable.src = "../static/table.jpg";
+  newTable.setAttribute("draggable", "true");
+
+  const imageContainer = document.querySelector("#imageHome");
+  imageContainer.appendChild(newTable);
+
+  newTable.addEventListener("dragstart", drag);
+}
