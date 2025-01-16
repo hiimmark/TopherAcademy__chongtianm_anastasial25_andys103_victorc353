@@ -14,8 +14,15 @@
         <img class="dragitem" id="drag3" src="../static/table.jpg" draggable="true">
         <img class="dragitem" id="drag4" src="../static/table.jpg" draggable="true">
         <img class="dragitem" id="drag5" src="../static/table.jpg" draggable="true">
-        <img class="table" data-id="32" src="../static/table.jpg" data-x-coor=3 data-y-coor=4>
-        <img class="table" data-id="32" src="../static/table.jpg" data-x-coor=3 data-y-coor=7>
+        {% for table in tables %}
+        <img
+        class="table"
+        data-id="{{ table.id }}"
+        src="../static/table.jpg"
+        data-x-coor="{{ table.x }}"
+        data-y-coor="{{ table.y }}"
+        >
+        {% endfor %}
     </div>
 
     <script src="../static/drag.js"></script>

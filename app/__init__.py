@@ -90,7 +90,12 @@ def manage():
         return redirect("/restaurants")
 
     if request.method == "POST":
-        return render_template("drag.html", restaurant=request.form['restaurant'])
+        restaurant=request.form['restaurant']
+        tablesFromDB = db.getTables(restaurant)
+        tables = []
+        for table in tablesFromDB:
+            tables.append({"id":table[0], "x":table[2], "y":table[3]})
+        return render_template("drag.html", restaurant=restaurant, tables=tables)
 
     return redirect("/logout") #should never go here
 
