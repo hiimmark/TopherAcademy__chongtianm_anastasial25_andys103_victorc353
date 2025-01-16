@@ -152,7 +152,7 @@ def makeReservation():
     tables = db.getAvailableTables(restaurant, int(num), date+'-'+time)
     for i in range(len(tables)):
         tables[i].append(i+1)
-    return render_template("make_reservation.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
+    return render_template("available_tables.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
 
 @app.route('/reserveTable', methods = ['POST'])
 def reserveTable():
@@ -175,6 +175,24 @@ def add_table():
         y = data.get("y")
         seats = data.get("seats")
         db.createTable(restaurant, seats, x, y)
+
+        return jsonify(response), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+@app.route('/makeReserve', methods=['POST'])
+def makeReserve():
+    try:
+        data = request.get_json()
+        response = {'success': True}
+
+        print(data)
+        tableID = int(data.get("table_id"))
+        email = session.get("email")
+        num = int(data.get("num"))
+        time = (data.get("date")+'-'+data.get("time"))
+        db.createReservation(email, tableID, num, time)
 
         return jsonify(response), 200
     except Exception as e:

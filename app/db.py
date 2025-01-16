@@ -334,7 +334,7 @@ def getAvailableTables(restaurant, numPeople, time):
     tables = getTables(restaurant)
     for table in tables:
         if table[1] >= numPeople:
-            if createReservation("checking if works", table[0], numPeople, time) == True:
-                returner.append([table[0], table[1]])
+            if (createReservation("checking if works", table[0], numPeople, time) == "Reservation Added Successfully"):
+                returner.append([table[0], table[1], table[2], table[3]])
             delReservation(table[0], time)
     return returner
