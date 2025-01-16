@@ -6,16 +6,15 @@ P02: Devo Dining
 Time Spent: 998244353 hours
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import calendar, os
 from datetime import datetime
 import db
+import resetToSample #this resets db
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
-
-db.createSampleData()
 
 @app.route('/', methods=['GET', 'POST'])
 def homeBase():
@@ -130,7 +129,11 @@ def manage_post():
     print(restaurant)
     print(type(restaurant))
     rest = restaurant[0]
-    return render_template("manage.html", rest = rest)
+    tablesFromDB = db.getTables(rest[0])
+    tables = []
+    for table in tablesFromDB:
+        tables.append({"id":table[0], "x":table[2], "y":table[3]})
+    return render_template("manage.html", rest = rest, tables = tables)
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
@@ -165,6 +168,23 @@ def update():
 #    if not details:
 #        return redirect("/restaurants")
 #    return render_template("manage.html", rest = details)
+# FOR MANAGERS
+@app.route('/manage', methods=['GET', 'POST'])
+def manage():
+    if session.get("email") == None:
+        return redirect("/")
+    if session.get("accountType") == "customer":
+        return redirect("/restaurants")
+
+    if request.method == "POST":
+        restaurant=request.form['restaurant']
+        tablesFromDB = db.getTables(restaurant)
+        tables = []
+        for table in tablesFromDB:
+            tables.append({"id":table[0], "x":table[2], "y":table[3]})
+        return render_template("drag.html", restaurant=restaurant, tables=tables)
+
+    return redirect("/logout") #should never go here
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -221,7 +241,7 @@ def makeReservation():
     tables = db.getAvailableTables(restaurant, int(num), date+'-'+time)
     for i in range(len(tables)):
         tables[i].append(i+1)
-    return render_template("make_reservation.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
+    return render_template("available_tables.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
 
 @app.route('/reserveTable', methods = ['POST'])
 def reserveTable():
@@ -231,6 +251,43 @@ def reserveTable():
     num = request.form['num']
     res = db.createReservation(session['email'], table, int(num), date+"-"+time)
     return render_template("reserve_table.html", resp = res)
+
+@app.route('/add_table', methods=['POST'])
+def add_table():
+    try:
+        data = request.get_json()
+        response = {'message': 'Table added successfully'}
+
+        print(data)
+        restaurant = data.get("restaurant_name")
+        x = data.get("x")
+        y = data.get("y")
+        seats = data.get("seats")
+        db.createTable(restaurant, seats, x, y)
+
+        return jsonify(response), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+@app.route('/makeReserve', methods=['POST'])
+def makeReserve():
+    try:
+        data = request.get_json()
+        response = {'success': True}
+
+        print(data)
+        tableID = int(data.get("table_id"))
+        email = session.get("email")
+        num = int(data.get("num"))
+        time = (data.get("date")+'-'+data.get("time"))
+        db.createReservation(email, tableID, num, time)
+
+        return jsonify(response), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 
 if __name__ == "__main__":
     app.debug = True

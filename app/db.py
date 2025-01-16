@@ -35,7 +35,9 @@ def createTables():
                 CREATE TABLE IF NOT EXISTS TableData (
                     ID INTEGER PRIMARY KEY,
                     restaurant TEXT NOT NULL,
-                    numSeats INTEGER NOT NULL)
+                    numSeats INTEGER NOT NULL,
+                    X INTEGER NOT NULL,
+                    Y INTEGER NOT NULL)
             ''')
 
         #Reservation Info
@@ -105,13 +107,14 @@ def createRestaurant(name, openTime, closeTime, timeBetweenReserves, owner):
 
 #restaurant is string name of restaurant, numSeats is integer
 #returns true if successful, false if not (don't know why it wouldn't be)
-def createTable(restaurant, numSeats):
+#x, y are ints
+def createTable(restaurant, numSeats, x, y):
     print(f"Creating table with {numSeats} seats at {restaurant}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
 
     try:
-        c.execute('INSERT INTO TableData (restaurant, numSeats) VALUES (?, ?)', (restaurant, numSeats))
+        c.execute('INSERT INTO TableData (restaurant, numSeats, X, Y) VALUES (?, ?, ?, ?)', (restaurant, numSeats, x, y))
         db.commit()
         db.close()
         print("Successfully added table")
@@ -207,12 +210,12 @@ def getRestaurantsOwner(owner):
 
 #restaurant is string (name of restaurant)
 #Returns list of tuples
-#Each tuple has (ID, numSeats)
+#Each tuple has (ID, numSeats, x, y)
 def getTables(restaurant):
     print(f"Getting all tables for {restaurant}")
     db = sqlite3.connect(DATABASE_NAME)
     c = db.cursor()
-    c.execute("SELECT ID, numSeats FROM TableData WHERE restaurant = ?", (restaurant,))
+    c.execute("SELECT ID, numSeats, X, Y FROM TableData WHERE restaurant = ?", (restaurant,))
     return c.fetchall()
 
 #restaurant is integer (ID of table)
@@ -319,12 +322,12 @@ def createSampleData():
     createUser("tberri50@stuy.edu", "instructorendorsed", "owner")
     createRestaurant("#GUDFAM Bagels", "8:00", "15:00", 20, "topher@hotmail.com")
     createRestaurant("Berri's Berry Smoothies", "7:00", "20:00", 30, "tberri50@stuy.edu")
-    createTable("#GUDFAM Bagels", 10)
-    createTable("#GUDFAM Bagels", 3)
-    createTable("#GUDFAM Bagels", 5)
-    createTable("Berri's Berry Smoothies", 1)
-    createTable("Berri's Berry Smoothies", 2)
-    createTable("Berri's Berry Smoothies", 4)
+    createTable("#GUDFAM Bagels", 10, 5, 7)
+    createTable("#GUDFAM Bagels", 3, 3, 3)
+    createTable("#GUDFAM Bagels", 5, 1, 1)
+    createTable("Berri's Berry Smoothies", 1, 3, 7)
+    createTable("Berri's Berry Smoothies", 2, 8, 5)
+    createTable("Berri's Berry Smoothies", 4, 2, 6)
     createUser("marge@stuy.edu", "cslab", "customer")
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-11:10")
     createReservation("marge@stuy.edu", 1, 2, "2025-6-27-13:10")
@@ -338,8 +341,8 @@ def getAvailableTables(restaurant, numPeople, time):
     tables = getTables(restaurant)
     for table in tables:
         if table[1] >= numPeople:
-            if createReservation("checking if works", table[0], numPeople, time) == "Reservation Added Successfully":
-                returner.append([table[0], table[1]])
+            if (createReservation("checking if works", table[0], numPeople, time) == "Reservation Added Successfully"):
+                returner.append([table[0], table[1], table[2], table[3]])
             delReservation(table[0], time)
     return returner
 
@@ -348,8 +351,7 @@ def updateRestaurantTime(name, time):
     c = db.cursor()
 
     try:
-        command = f"UPDATE RestaurantData SET timeBetweenReserves = ? WHERE name = ?", (time, name),
-        c.execute(command)
+        c.execute("UPDATE RestaurantData SET timeBetweenReserves = ? WHERE name = ?", (time, name,))
         db.commit()
         db.close()
         print("done")
@@ -365,6 +367,21 @@ def updateRestaurantOpen(name, open):
 
     try:
         c.execute("UPDATE RestaurantData SET openTime = ? WHERE name = ?", (open, name,))
+        db.commit()
+        db.close()
+        print("done")
+        return True
+    except Exception as e:
+        print(f"failed updating restaurant: {e}")
+        db.close()
+        return False
+    
+def updateRestaurantClose(name, close):
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+
+    try:
+        c.execute("UPDATE RestaurantData SET closeTime = ? WHERE name = ?", (close, name,))
         db.commit()
         db.close()
         print("done")

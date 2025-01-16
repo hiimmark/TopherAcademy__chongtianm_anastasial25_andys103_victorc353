@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Available Reservations in {{ restaurant }}</title>
+		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+      <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+    <link rel="stylesheet" href="../static/drag.css">
+		<link rel="stylesheet" href="../static/styles.css">
+
+	</head>
+
+	<body data-num = {{num}} data-date = {{date}} data-time = {{time}}>
+		<center>
+			<h2>Available Reservations in {{ restaurant }}</h2>
+			<hr>
+			<div class="flex justify-end space-x-4">
+				<form action="/restaurants" method="POST">
+					<button type="submit" class="bg-gray-200 px-4 py-2 rounded">Return to Restaurant List</button>
+				</form>
+				<form action="/logout" method="POST">
+					<button type="submit" class="bg-red-200 px-4 py-2 rounded">Logout</button>
+				</form>
+			</div>
+			<hr>
+
+			<h2>Showing available tables for {{ date }} at {{ time }} for {{ num }} people</h2>
+
+			<!-- Grid Container for Tables -->
+			<div id="grid" class="grid grid-cols-10 gap-2 mt-4">
+				<!-- Jinja loop to populate tables -->
+				{% for table in tables %}
+					<img
+						class="table cursor-pointer"
+						src="../static/table.jpg"
+						data-id="{{ table[0] }}"
+						data-size="{{ table[1] }}"
+            data-x-coor="{{ table[2] }}"
+            data-y-coor="{{ table[3] }}">
+				{% endfor %}
+			</div>
+		</center>
+
+
+		<script>
+		    const num = {{ num | tojson }};
+		    const date = {{ date | tojson }};
+		    const time = {{ time | tojson }};
+		</script>
+
+
+		<script src="../static/reserveTables.js"></script>
+    <script src="../static/drag.js"></script>
+    <script src="../static/displayTables.js"></script>
+
+
+	</body>
+</html>

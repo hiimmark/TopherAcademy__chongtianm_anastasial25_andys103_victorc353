@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/drag.css">
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+    <link rel="stylesheet" href="../static/styles.css">
+
+</head>
+<body data-restaurant-name="{{ restaurant }}">
+
+    <div id="grid"></div>
+
+    <div id="imageHome">
+        <img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
+        {% for table in tables %}
+        <img
+        class="table"
+        data-id="{{ table.id }}"
+        src="../static/table.jpg"
+        data-x-coor="{{ table.x }}"
+        data-y-coor="{{ table.y }}"
+        >
+        {% endfor %}
+    </div>
+
+    <script src="../static/drag.js"></script>
+    <script src="../static/displayTables.js"></script>
+
+    <div class="mrt ml-auto">
+      <ul class="navbar-nav">
+        <a class="nav-link" href="/">Back</a>
+      </ul>
+      </div>
+</body>
+</html>

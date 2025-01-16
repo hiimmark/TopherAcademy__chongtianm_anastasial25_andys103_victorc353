@@ -63,6 +63,7 @@ markM -- 2025-01-14 16:00
 anastasiaL -- 2025-01-15 10:15
 - added flashes to login and register html and flask
 - added formatting to restaurants.html and create.html
+<<<<<<< HEAD
 - added formatting to reserve.html
 
 markM -- 2024-01-15 11:15
@@ -71,3 +72,11 @@ markM -- 2024-01-15 11:15
 anastasiaL -- 2025-01-15 13:16
 - added formatting to make_reservation.html
 - added formatting to reserve_table.html
+=======
+
+victorC -- 2025-01-16 15:57
+- this was started two days ago
+- x and y coors for tables!!
+- managers can drag and drop tables
+- visual selection of reservations
+>>>>>>> a937376ebf64100efe34f0dae477ae2194622958
