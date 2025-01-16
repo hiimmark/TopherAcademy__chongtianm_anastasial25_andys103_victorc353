@@ -50,7 +50,7 @@
 				<h4> Hours: {{ rest[1] }}-{{ rest[2] }} </h4>
 				{% if rest[4] == name %}
 				<form action=/manage method="POST">
-					<button name="restaurant" value= "{{ rest }}" type="submit">Manage your restaurant</button>
+					<button name="restaurant" value= "{{ rest[0] }}" type="submit">Manage your restaurant</button>
 				</form>
 				{% else %}
 					Error
