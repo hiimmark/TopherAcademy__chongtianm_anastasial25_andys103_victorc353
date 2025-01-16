@@ -343,3 +343,34 @@ def getAvailableTables(restaurant, numPeople, time):
             delReservation(table[0], time)
     return returner
 
+def updateRestaurantTime(name, time):
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+
+    try:
+        command = f"UPDATE RestaurantData SET timeBetweenReserves = ? WHERE name = ?", (time, name),
+        c.execute(command)
+        db.commit()
+        db.close()
+        print("done")
+        return True
+    except Exception as e:
+        print(f"failed updating restaurant: {e}")
+        db.close()
+        return False
+    
+def updateRestaurantOpen(name, open):
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+
+    try:
+        command = f"UPDATE RestaurantData SET openTime = ? WHERE name = ?", (open, name)
+        c.execute(command)
+        db.commit()
+        db.close()
+        print("done")
+        return True
+    except Exception as e:
+        print(f"failed updating restaurant: {e}")
+        db.close()
+        return False

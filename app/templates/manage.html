@@ -20,13 +20,57 @@
             <button type="submit">Logout</button>
         </div>
     </form>
+
+
+
+
     <script>
+        function editField(fieldId, buttonId) {
+            const field = document.getElementById(fieldId);
+            const button = document.getElementById(buttonId);
+
+            if (button.innerText === "Edit") {
+                // Turn the text into an input field
+                const currentValue = field.innerText;
+                field.innerHTML = `<input type="text" id="${fieldId}Input" value="${currentValue}">`;
+                button.innerText = "Confirm";
+            } else {
+                // Save the input value and turn it back into text
+                const input = document.getElementById(`${fieldId}Input`);
+                field.innerText = input.value;
+                button.innerText = "Edit";
+
+                // Optional: Make a POST request to save the new value (requires backend handling)
+                // Example: sendUpdatedValue(fieldId, input.value);
+            }
+        }
+
     function change()
     {
         var elem = document.getElementById("myButton1");
         if (elem.value=="Close Curtain") elem.value = "Open Curtain";
         else elem.value = "Close Curtain";
     }
+	function submitForm(event, form, fieldId) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the span with the new value
+                    const updatedValue = formData.get("field_value");
+                    document.getElementById(fieldId).innerText = updatedValue;
+                } else {
+                    alert('Failed to update the field!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
 
     </script>
     
@@ -34,19 +78,62 @@
         <h2> Owner: {{rest[4]}} </h2>
         <br>
         <h1> Restaurant Name: {{rest[0]}} </h1>
-        <h2 id="myButton1"> Edit </h2>
-        <input onclick="change()" type="button" value="Open Curtain" id="myButton1"></input>
-        <h3> Opening Time: {{ rest[1] }} </h3>
-        <h4> Edit </h4>
-        <h3> Closing Time: {{ rest[2] }} </h3>
-        <h4> Edit </h4>
+        <h1> Restaurant Name: <span id="restaurantName">{{rest[0]}}</span></h1>
+		<form action="/update" method="POST">
+			<input type="text" name="val" value="{{ rest[0] }}">
+			<input type="hidden" name="new_val" value="{{ rest }}">
+			<input type="hidden" name="num" value="1">
+			<button type="submit">Confirm</button>
+		</form>
+		<h1> Opening Time: <span id="openTime">{{rest[1]}}</span></h1>
+		<form action="/update" method="POST">
+			<input type="text" name="val" value="{{ rest[1] }}">
+			<input type="hidden" name="new_val" value="{{ rest }}">
+			<input type="hidden" name="num" value="2">
+			<button type="submit">Confirm</button>
+		</form>
+		<h1> Closing Time: <span id="openTime">{{rest[2]}}</span></h1>
+		<form action="/update" method="POST">
+			<input type="text" name="val" value="{{ rest[2] }}">
+			<input type="hidden" name="new_val" value="{{ rest }}">
+			<input type="hidden" name="num" value="3">
+			<button type="submit">Confirm</button>
+		</form>
         
-        <h3> Time between reservations: {{ rest[3] }} </h3>
-        <h4> Edit </h4>
+		<h1> Timme between reservations: <span id="openTime">{{rest[3]}}</span></h1>
+		<form action="/update" method="POST">
+			<input type="text" name="val" value="{{ rest[3] }}">
+			<input type="hidden" name="new_val" value="{{ rest }}">
+			<input type="hidden" name="num" value="4">
+			<button type="submit">Confirm</button>
+		</form>
+
 		{% for rest in tb %}
 		<br>
         <h5> {{tb[0]}} </h5>
 		<hr>
 		{% endfor %}
 	{% endif %}
+</body>
+<body data-restaurant-name="{{ restaurant }}">
+
+    <div id="grid"></div>
+
+    <div id="imageHome">
+        <img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag2" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag3" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag4" src="../static/table.jpg" draggable="true">
+        <img class="dragitem" id="drag5" src="../static/table.jpg" draggable="true">
+    </div>
+
+    <script src="../static/drag.js"></script>
+
+    <div class="mrt ml-auto">
+      <ul class="navbar-nav">
+        <a class="nav-link" href="/">Back</a>
+      </ul>
+      </div>
+</body>
 </html>
+

@@ -45,6 +45,7 @@ def auth_login():
         session['email'] = email
         userType = db.checkLogin(email, password)
         session['accountType'] = userType
+        session["restaurant"] = None
         return redirect('/')
     return render_template("login.html")
 
@@ -63,6 +64,7 @@ def auth_register():
             return redirect('/register')
         session['email'] = email
         session['accountType'] = usty
+        session["restaurant"] = None
         return redirect('/')
     return render_template("register.html")
 
@@ -72,6 +74,7 @@ def restaurants():
         return redirect("/")
     mode = session['accountType']
     name = session["email"]
+    session["restaurant"] = None
     if mode == "customer":
         print("customer")
         li = db.getRestaurants()
@@ -83,31 +86,57 @@ def restaurants():
     return render_template("restaurants.html", mode = mode, name = name, li = li)
 
 # FOR OWNERS
-@app.route('/manage', methods=['POST'])
+@app.route('/manage', methods=['GET', 'POST'])
 def manage_post():
+    print(1.1)
     if session.get("email") is None:
         return redirect("/")
     if session.get("accountType") == "customer":
         return redirect("/restaurants")
-    restaurant = request.form.get("restaurant")
+    print(1)
+    if session.get("restaurant") == None:
+        print(2)
+        restaurant1 = request.form.get("restaurant")
+        restaurant = db.getRestaurantsInfo(restaurant1)
+        session["restaurant"] = restaurant
+        print(restaurant)
+    else:
+        print(3)
+        restaurant1 = session.get("restaurant")
+        print(restaurant1)
+        print(type(restaurant1))
+        print(restaurant1[0][0])
+        print(type(restaurant1[0][0]))
+        restaurant = db.getRestaurantsInfo(restaurant1[0][0])
+        session["restaurant"] = restaurant
     if not restaurant:
         return "Error: Restaurant name is missing."
     print(restaurant)
-    rest = restaurant[1:-1].split(",")
     print(type(restaurant))
-    print(rest)
-    print(type(rest))
-    restA = []
-    a = 0
-    for (i) in rest:
-        if a == 0:
-            restA.append(i[1:-1])
-        else:
-            restA.append(i[2:-1])
-        print(f"hi: {i}")
-        a += 1
-    
-    return render_template("manage.html", rest = restA)
+    rest = restaurant[0]
+    return render_template("manage.html", rest = rest)
+
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    if session.get("email") is None:
+        return redirect("/")
+    if session.get("accountType") == "customer":
+        return redirect("/restaurants")
+    restaurant = request.form.get("new_val")
+    print(restaurant)
+    new_val = request.form.get("new_val")
+    field_name = request.form.get("val")
+    num = request.form.get("num")
+    restA = new_val.split(",")
+    if (num == 2 or num == "2"):
+        print(f"lsdds: {field_name}")
+        print(type(field_name))
+        print(restA[0])
+        print(type(restA[0]))
+        ls = db.updateRestaurantOpen(restA[0], field_name)
+        print(f"ls: {ls}")
+    print(f"time{field_name} ttoal {new_val} num {num}")
+    return redirect("/manage")
 
 # FOR MANAGERS
 #@app.route('/manage/<restaurant>', methods=['GET', 'POST'])
