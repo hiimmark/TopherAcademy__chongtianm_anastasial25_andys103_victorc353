@@ -21,7 +21,7 @@ function drop(ev) {
         ev.target.appendChild(element);
 
         console.log(`Table dropped into div at (${x}, ${y}) with ${seats} seats`);
-
+        element.setAttribute("draggable", "false");
         //this sends to flask
         fetch("/add_table", {
             method: "POST",

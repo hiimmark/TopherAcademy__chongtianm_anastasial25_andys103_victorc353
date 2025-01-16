@@ -6,6 +6,12 @@ tables.forEach((table) => {
 });
 
 function moveTo(table, x, y) {
-  let xRight = document.querySelector(`[data-x="${x}"]`)};
-  xRight.forEach((element) => console.log(element));
-};
+  const targetDiv = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+
+  if (targetDiv) {
+    targetDiv.appendChild(table);
+    table.setAttribute("draggable", "false");
+  } else {
+    console.error(`Div at (${x}, ${y}) not found`);
+  }
+}
