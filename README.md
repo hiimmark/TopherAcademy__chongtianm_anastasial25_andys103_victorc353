@@ -54,7 +54,7 @@ Ensure that **Git** and **Python** are installed on your machine. It is recommen
 1. Create Python virtual environment:
 
 ```
-python3 -m PATH/TO/venv_name
+python3 -m venv PATH/TO/venv_name
 ```
 
 2. Activate virtual environment
