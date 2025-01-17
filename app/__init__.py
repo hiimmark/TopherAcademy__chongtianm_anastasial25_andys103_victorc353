@@ -133,7 +133,17 @@ def manage_post():
     tables = []
     for table in tablesFromDB:
         tables.append({"id":table[0], "x":table[2], "y":table[3]})
-    return render_template("manage.html", rest = rest, tables = tables)
+    reserve = db.getRestaurantReservations(rest[0])
+    print(reserve)
+    print(type(reserve))
+    print(reserve[0])
+    print(type(reserve[0]))
+    print(reserve[1])
+    print(type(reserve[1]))
+    print(reserve[0][0])
+    print(type(reserve[0][0]))
+    print("iujqsod8qyuwoik")
+    return render_template("manage.html", rest = rest, tables = tables, reserve = reserve)
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
@@ -169,22 +179,22 @@ def update():
 #        return redirect("/restaurants")
 #    return render_template("manage.html", rest = details)
 # FOR MANAGERS
-@app.route('/manage', methods=['GET', 'POST'])
-def manage():
-    if session.get("email") == None:
-        return redirect("/")
-    if session.get("accountType") == "customer":
-        return redirect("/restaurants")
+# @app.route('/manage', methods=['GET', 'POST'])
+# def manage():
+#     if session.get("email") == None:
+#         return redirect("/")
+#     if session.get("accountType") == "customer":
+#         return redirect("/restaurants")
 
-    if request.method == "POST":
-        restaurant=request.form['restaurant']
-        tablesFromDB = db.getTables(restaurant)
-        tables = []
-        for table in tablesFromDB:
-            tables.append({"id":table[0], "x":table[2], "y":table[3]})
-        return render_template("drag.html", restaurant=restaurant, tables=tables)
+#     if request.method == "POST":
+#         restaurant=request.form['restaurant']
+#         tablesFromDB = db.getTables(restaurant)
+#         tables = []
+#         for table in tablesFromDB:
+#             tables.append({"id":table[0], "x":table[2], "y":table[3]})
+#         return render_template("drag.html", restaurant=restaurant, tables=tables)
 
-    return redirect("/logout") #should never go here
+#     return redirect("/logout") #should never go here
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -260,10 +270,13 @@ def add_table():
 
         print(data)
         restaurant = data.get("restaurant_name")
+        print("HEWWWOO")
+        print(restaurant)
         x = data.get("x")
         y = data.get("y")
         seats = data.get("seats")
-        db.createTable(restaurant, seats, x, y)
+        f = db.createTable(restaurant, seats, x, y)
+        print(f"ASHDIASGDFIYUQWUQHIUH {f}")
 
         return jsonify(response), 200
     except Exception as e:

@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="../static/styles.css">
 	</head>
 
+<body>
 	<center>
 		<h2> Owner </h2> <br>
 	</center>
@@ -28,8 +29,9 @@
     <div class="row">
 		<div class="columnL">
 			{% if mode != "customer" %}
-				<h2> Owner: {{rest[4]}} </h2>
+				<h1> Reservations </h1>
 				<br>
+				<h2> Owner: {{rest[4]}} </h2>
 				<h1> Restaurant Name: <span id="restaurantName">{{rest[0]}}</span></h1>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[0] }}">
@@ -62,10 +64,10 @@
 			{% endif %}
 		</div>
 		<div class="column">
-			<div data-restaurant-name="{{ restaurant }}">
-
+			<body data-restaurant-name="{{ rest[0] }}">
+				<h1> Table Grid </h1>
 				<div id="grid"></div>
-			
+				
 				<div id="imageHome">
 					<img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
 					{% for table in tables %}
@@ -83,11 +85,36 @@
 				<script src="../static/displayTables.js"></script>
 			
 				<div class="mrt ml-auto">
-				    <ul class="navbar-nav">
-					    <a class="nav-link" href="/">Back</a>
-				    </ul>
+				  <ul class="navbar-nav">
+					<a class="nav-link" href="/">Back</a>
+				  </ul>
 				</div>
-			</div>
+			</body>
+		</div>
+		<div class="columnR">
+			<h1> Reservations </h1>
+			<table border="1" style="width: 100%; text-align: left;">
+				<thead>
+					<tr>
+						<th>Email</th>
+						<th># People</th>
+						<th>Time Reserved</th>
+						<th>Table ID</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for r in reserve %}
+						{% for rs in r %}
+							<tr>
+								<td>{{ rs[0] }}</td>
+								<td>{{ rs[1] }}</td>
+								<td>{{ rs[2] }}</td>
+								<td>{{ rs[3] }}</td>
+							</tr>
+						{% endfor %}
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
 </body>

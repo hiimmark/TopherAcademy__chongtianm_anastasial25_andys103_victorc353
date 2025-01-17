@@ -98,10 +98,16 @@ body
 
 .column {
   float: left;
-  width: 40%;
+  width: 35%;
 }
 
 .columnR {
   float: left;
   width: 30%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
