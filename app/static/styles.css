@@ -90,3 +90,25 @@ body
 .top-right-form button:hover {
   background-color: #555;
 }
+
+.columnL {
+  margin-left: 1%;
+  float: left;
+  width: 30%;
+}
+
+.column {
+  float: left;
+  width: 35%;
+}
+
+.columnR {
+  float: left;
+  width: 30%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
