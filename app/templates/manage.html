@@ -28,17 +28,13 @@
     <div class="row">
 		<div class="columnL">
 			{% if mode != "customer" %}
-				<h1> Reservations </h1>
 				<br>
 				<h2> Owner: {{rest[4]}} </h2>
-				<h1> Restaurant Name: <span id="restaurantName">{{rest[0]}}</span></h1>
-				<form action="/update" method="POST">
-					<input type="text" name="val" value="{{ rest[0] }}">
-					<input type="hidden" name="new_val" value="{{ rest }}">
-					<input type="hidden" name="num" value="1">
-					<button type="submit">Confirm</button>
-				</form>
-				<h1> Opening Time: <span id="openTime">{{rest[1]}}</span></h1>
+
+        <h1> Restaurant Name: <span id="restaurantName"> {{rest[0]}} </span>
+        </h1>
+
+        <h1> Opening Time: <span id="openTime">{{rest[1]}}</span></h1>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[1] }}">
 					<input type="hidden" name="new_val" value="{{ rest }}">
