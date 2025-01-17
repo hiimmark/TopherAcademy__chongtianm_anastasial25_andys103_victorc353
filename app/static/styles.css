@@ -92,6 +92,7 @@ body
 }
 
 .columnL {
+  margin-left: 1%;
   float: left;
   width: 30%;
 }
