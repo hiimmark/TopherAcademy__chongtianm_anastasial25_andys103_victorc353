@@ -57,6 +57,11 @@ markM -- 2025-01-14 11:00
 - finished form for sending reservation information
 - worked in display for available reservations
 
+andyS -- 2025-01-14 11:00
+- created manager edit restaurant page for open time, close time, and intervals
+- implemented JS scripts to allow for button to open/close edit box
+- flask implementation with /manage for different values
+
 markM -- 2025-01-14 16:00
 - Finished backend funcationalities of customer side.
 - added flashes to login and register html and flask
@@ -70,11 +75,21 @@ anastasiaL -- 2025-01-15 13:16
 - added formatting to make_reservation.html
 - added formatting to reserve_table.html
 
+andyS -- 2025-01-15 23:42
+- created /manage and /update flask routes
+- made new database access methods to get restaurant and reservation info
+
 victorC -- 2025-01-16 15:57
 - this was started two days ago
 - x and y coors for tables!!
 - managers can drag and drop tables
 - visual selection of reservations
+
+andyS -- 2025-01-16 20:01
+- finished manage.html page with grid, reservation, restaurant, and table info
+- flask app finished and integrated with add_table method
+- implemented JS scripts into the tables with css
+- fixed bugs throughout flask routing and tables management
 
 anastasiaL -- 2025-01-16 20:21
 - added formatting to manage page and new makeReservation page
