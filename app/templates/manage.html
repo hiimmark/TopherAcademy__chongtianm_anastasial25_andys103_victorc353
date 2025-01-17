@@ -24,7 +24,7 @@
 			</div>
 		</div>
 	  </nav>
-    
+
     <div class="row">
 		<div class="columnL">
 			{% if mode != "customer" %}
@@ -52,7 +52,7 @@
 					<input type="hidden" name="num" value="3">
 					<button type="submit">Confirm</button>
 				</form>
-				
+
 				<h1> Time between reservations: <span id="openTime">{{rest[3]}}</span></h1>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[3] }}">
@@ -66,7 +66,7 @@
 			<body data-restaurant-name="{{ rest[0] }}">
 				<center><h1> Manage Tables </h1>
 				<div id="grid"></div>
-				
+
 				<div id="imageHome">
 					<img class="dragitem" id="drag1" src="../static/table.jpg" draggable="true">
 					{% for table in tables %}
@@ -84,22 +84,23 @@
 			</center>
 			<script src="../static/drag.js"></script>
 			<script src="../static/displayTables.js"></script>
-		
+
 			<script>
 			document.addEventListener("DOMContentLoaded", () => {
 				const tables = document.querySelectorAll(".table");
-		
+
 				tables.forEach((table) => {
+					console.log(table)
 					const tableId = table.dataset.id;
 					if (tableId) {
 						const label = document.createElement("div");
 						label.classList.add("table-label");
 						label.textContent = "ID: " + tableId;
-		
+
 						table.parentElement.style.position = "relative";
 						table.parentElement.appendChild(label);
 					}
-		
+
 					const numSeats = table.dataset.seats;
                         if (numSeats) {
                                 const label = document.createElement("div");
@@ -109,6 +110,7 @@
                                 table.parentElement.style.position = "relative";
                                 table.parentElement.appendChild(label);
                         }
+
 					});
 				});
 			</script>
@@ -141,4 +143,3 @@
 	</div>
 </body>
 </html>
-

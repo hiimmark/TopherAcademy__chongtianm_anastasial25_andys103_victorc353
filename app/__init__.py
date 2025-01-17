@@ -132,7 +132,7 @@ def manage_post():
     tablesFromDB = db.getTables(rest[0])
     tables = []
     for table in tablesFromDB:
-        tables.append({"id":table[0], "x":table[2], "y":table[3]})
+        tables.append({"id":table[0], "seats":table[1],"x":table[2], "y":table[3]})
     reserve = db.getRestaurantReservations(rest[0])
     print(reserve)
     print(type(reserve))
