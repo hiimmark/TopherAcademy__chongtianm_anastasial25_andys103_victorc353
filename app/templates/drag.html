@@ -37,6 +37,7 @@
         class="table"
         data-id="{{ table.id }}"
         src="../static/table.jpg"
+				data-seats="{{ table.seats }}"
         data-x-coor="{{ table.x }}"
         data-y-coor="{{ table.y }}"
         >
@@ -46,5 +47,33 @@
 </center>
     <script src="../static/drag.js"></script>
     <script src="../static/displayTables.js"></script>
+
+		<script>
+		document.addEventListener("DOMContentLoaded", () => {
+				const tables = document.querySelectorAll(".table");
+
+				tables.forEach((table) => {
+						const tableId = table.dataset.id;
+						if (tableId) {
+								const label = document.createElement("div");
+								label.classList.add("table-label");
+								label.textContent = "ID: " + tableId;
+
+								table.parentElement.style.position = "relative";
+								table.parentElement.appendChild(label);
+						}
+
+						const numSeats = table.dataset.seats;
+						if (numSeats) {
+								const label = document.createElement("div");
+								label.classList.add("table-label2");
+								label.textContent = numSeats + " seats";
+
+								table.parentElement.style.position = "relative";
+								table.parentElement.appendChild(label);
+						}
+				});
+		});
+</script>
 </body>
 </html>

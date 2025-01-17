@@ -94,7 +94,7 @@ def manage():
         tablesFromDB = db.getTables(restaurant)
         tables = []
         for table in tablesFromDB:
-            tables.append({"id":table[0], "x":table[2], "y":table[3]})
+            tables.append({"id":table[0], "seats":table[1], "x":table[2], "y":table[3]})
         return render_template("drag.html", restaurant=restaurant, tables=tables)
 
     return redirect("/logout") #should never go here

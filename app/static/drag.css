@@ -20,8 +20,8 @@
 }
 
 .table {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     margin: 5px;
     cursor: grab;
 }
@@ -29,4 +29,25 @@
 #imageContainer {
     display: flex;
     gap: 10px;
+}
+
+
+.table-label {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: black;
+  pointer-events: none;
+}
+
+.table-label2 {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: black;
+  pointer-events: none;
 }
