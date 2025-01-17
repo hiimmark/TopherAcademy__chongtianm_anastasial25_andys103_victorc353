@@ -156,15 +156,6 @@ def makeReservation():
         tables[i].append(i+1)
     return render_template("available_tables.html", date = date, time = time, num = num, restaurant = restaurant, tables = tables)
 
-@app.route('/reserveTable', methods = ['POST'])
-def reserveTable():
-    time = request.form['time']
-    date = request.form['date']
-    table = request.form['table']
-    num = request.form['num']
-    res = db.createReservation(session['email'], table, int(num), date+"-"+time)
-    return render_template("reserve_table.html", resp = res)
-
 @app.route('/add_table', methods=['POST'])
 def add_table():
     try:
