@@ -8,7 +8,7 @@
 
 ## Site Description
 
-Restaurant reserving app for customers and managers. On the customers side, they should be able to select # of people they expect to being & the time, then the app should return available slots. They can claim/change a reservation through accessing their account. On the manager side, they will be able to setup the layout of the restaurant (i.e. input coordinates for each table, minimum capacity of each table, waitlist managing) and view reserved tables.
+Restaurant reservation website for customers and managers. Must login/register with email and password. On the customer side, users can view the list of restaurants. From there, they can select a restaurant and make a reservation by entering the number of people they expect to bring and the time. The website shows all available tables, from which they can claim one by clicking on it. On the manager side, users can view the list of their restaurants, set up the layout of each one (place tables, customize the number of seats at each table), and view reserved tables.
 
 ## Install Guide
 

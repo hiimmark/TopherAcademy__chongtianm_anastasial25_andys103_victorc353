@@ -191,6 +191,13 @@ def getRestaurants():
     c.execute("SELECT name, openTime, closeTime, timeBetweenReserves, owner FROM RestaurantData")
     return c.fetchall()
 
+def getRestaurantsInfo(name):
+    print(f"Getting Info of Restaurant {name}")
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+    c.execute("SELECT name, openTime, closeTime, timeBetweenReserves, owner FROM RestaurantData WHERE name = ?", (name,))
+    return c.fetchall()
+
 #Returns list of tuples
 #Each tuple has (name, openTime, closeTime, timeBetweenReserves, owner)
 #Only selects from values where the owner is selected
@@ -338,3 +345,48 @@ def getAvailableTables(restaurant, numPeople, time):
                 returner.append([table[0], table[1], table[2], table[3]])
                 delReservation(table[0], time)
     return returner
+
+def updateRestaurantTime(name, time):
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+
+    try:
+        c.execute("UPDATE RestaurantData SET timeBetweenReserves = ? WHERE name = ?", (time, name,))
+        db.commit()
+        db.close()
+        print("done")
+        return True
+    except Exception as e:
+        print(f"failed updating restaurant: {e}")
+        db.close()
+        return False
+    
+def updateRestaurantOpen(name, open):
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+
+    try:
+        c.execute("UPDATE RestaurantData SET openTime = ? WHERE name = ?", (open, name,))
+        db.commit()
+        db.close()
+        print("done")
+        return True
+    except Exception as e:
+        print(f"failed updating restaurant: {e}")
+        db.close()
+        return False
+    
+def updateRestaurantClose(name, close):
+    db = sqlite3.connect(DATABASE_NAME)
+    c = db.cursor()
+
+    try:
+        c.execute("UPDATE RestaurantData SET closeTime = ? WHERE name = ?", (close, name,))
+        db.commit()
+        db.close()
+        print("done")
+        return True
+    except Exception as e:
+        print(f"failed updating restaurant: {e}")
+        db.close()
+        return False

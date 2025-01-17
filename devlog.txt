@@ -59,8 +59,6 @@ markM -- 2025-01-14 11:00
 
 markM -- 2025-01-14 16:00
 - Finished backend funcationalities of customer side.
-
-anastasiaL -- 2025-01-15 10:15
 - added flashes to login and register html and flask
 - added formatting to restaurants.html and create.html
 - added formatting to reserve.html
@@ -77,3 +75,12 @@ victorC -- 2025-01-16 15:57
 - x and y coors for tables!!
 - managers can drag and drop tables
 - visual selection of reservations
+
+anastasiaL -- 2025-01-16 20:21
+- added formatting to manage page and new makeReservation page
+- updated design doc:
+  - took out waitlist
+  - updated site map to include all pages
+  - clarified overview and details of program components
+  - added use of Bootstrap list groups
+- updated README with new overview
