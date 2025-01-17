@@ -75,3 +75,12 @@ victorC -- 2025-01-16 15:57
 - x and y coors for tables!!
 - managers can drag and drop tables
 - visual selection of reservations
+
+anastasiaL -- 2025-01-16 20:21
+- added formatting to manage page and new makeReservation page
+- updated design doc:
+  - took out waitlist
+  - updated site map to include all pages
+  - clarified overview and details of program components
+  - added use of Bootstrap list groups
+- updated README with new overview
