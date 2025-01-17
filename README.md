@@ -30,16 +30,6 @@ SSH METHOD (requires the SSH key):
 ```
 git clone git@github.com:hiimmark/TopherAcademy__chongtianm_anastasial25_andys103_victorc353.git
 ```
-2. Navigate to project directory:
-
-```
-cd PATH/TO/TopherAcademy__chongtianm_anastasial25_andys103_victorc353
-```
-3. Install dependencies
-
-```
-pip install -r requirements.txt
-```
 
 ## Launch Codes
 
@@ -51,10 +41,10 @@ Ensure that **Git** and **Python** are installed on your machine. It is recommen
 
 ### How to run
 
-1. Create Python virtual environment:
+1. Create Python virtual environment
 
 ```
-python3 -m PATH/TO/venv_name
+python3 -m venv PATH/TO/venv_name
 ```
 
 2. Activate virtual environment
@@ -70,18 +60,28 @@ python3 -m PATH/TO/venv_name
 
    - Type `deactivate` in the terminal to close a virtual environment
 
-3. Navigate to project app directory
+3. Navigate to project directory
+
+```
+cd PATH/TO/TopherAcademy__chongtianm_anastasial25_andys103_victorc353
+```
+4. Install dependencies
+
+```
+pip install -r requirements.txt
+```
+5. Navigate to project app directory
 
 ```
  cd PATH/TO/TopherAcademy__chongtianm_anastasial25_andys103_victorc353/app/
 ```
 
-4. Run App
+6. Run App
 
 ```
  python3 __init__.py
 ```
-5. Open the link that appears in the terminal to be brought to the website
+7. Open the link that appears in the terminal to be brought to the website
     - You can visit the link via several methods:
         - Control + Clicking on the link
         - Typing/Pasting http://127.0.0.1:5000 in any browser

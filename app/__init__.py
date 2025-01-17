@@ -10,11 +10,11 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import calendar, os
 from datetime import datetime
 import db
-import resetToSample #this resets db
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 # HOME PAGE, SHOULD PROMPT REGISTER OR LOGIN
+db.resetDB()
 
 @app.route('/', methods=['GET', 'POST'])
 def homeBase():
@@ -80,14 +80,6 @@ def restaurants():
     elif mode == "owner":
         print("owner")
         li = db.getRestaurantsOwner(name)
-        #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        #print(type(li))
-        #print(li)
-        #print(li[0])
-        #print(type(li[0]))
-        #print(li[0][0])
-        #print(type(li[0][0]))
-        #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")
     else:
         return redirect("/logout")
     return render_template("restaurants.html", mode = mode, name = name, li = li)
@@ -111,18 +103,8 @@ def manage_post():
         print(3)
         print(session.get("restaurant"))
         restaurant1 = session.get("restaurant")
-        #print(restaurant1)
-        #print(type(restaurant1))
-        #print(restaurant1[0])
-        #print(type(restaurant1[0]))
-        #print("HEYYYY!!!!")
-        #print(restaurant1[0][0])
-        #print(type(restaurant1[0][0]))
         restaurant = db.getRestaurantsInfo(restaurant1[0][0])
         session["restaurant"] = restaurant
-        #print(restaurant)
-        #print(type(restaurant))
-        #print("ello mate")
     if not restaurant:
         return "Error: Restaurant name is missing."
     print("hiii")
@@ -134,15 +116,6 @@ def manage_post():
     for table in tablesFromDB:
         tables.append({"id":table[0], "seats":table[1],"x":table[2], "y":table[3]})
     reserve = db.getRestaurantReservations(rest[0])
-    #print(reserve)
-    #print(type(reserve))
-    #print(reserve[0])
-    #print(type(reserve[0]))
-    #print(reserve[1])
-    #print(type(reserve[1]))
-    #print(reserve[0][0])
-    #print(type(reserve[0][0]))
-    #print("iujqsod8qyuwoik")
     return render_template("manage.html", rest = rest, tables = tables, reserve = reserve)
 
 @app.route('/update', methods=['GET', 'POST'])

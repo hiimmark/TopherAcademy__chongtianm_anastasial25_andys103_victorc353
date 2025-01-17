@@ -99,3 +99,8 @@ anastasiaL -- 2025-01-16 20:21
   - clarified overview and details of program components
   - added use of Bootstrap list groups
 - updated README with new overview
+
+anastasiaL -- 2025-01-16 23:19
+- added keys directory
+- removed unnecessary files and functions
+- fixed small errors in README
