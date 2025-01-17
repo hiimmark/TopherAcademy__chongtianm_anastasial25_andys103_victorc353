@@ -145,6 +145,7 @@ def manage_post():
     print("iujqsod8qyuwoik")
     return render_template("manage.html", rest = rest, tables = tables, reserve = reserve)
 
+<<<<<<< HEAD
 @app.route('/update', methods=['GET', 'POST'])
 def update():
     if session.get("email") is None:
@@ -166,6 +167,15 @@ def update():
         print(f"ls: {ls}")
     print(f"time{field_name} ttoal {new_val} num {num}")
     return redirect("/manage")
+=======
+    if request.method == "POST":
+        restaurant=request.form['restaurant']
+        tablesFromDB = db.getTables(restaurant)
+        tables = []
+        for table in tablesFromDB:
+            tables.append({"id":table[0], "seats":table[1], "x":table[2], "y":table[3]})
+        return render_template("drag.html", restaurant=restaurant, tables=tables)
+>>>>>>> 829dc328804e425512f96c073bf6d8b005d453d0
 
 # FOR MANAGERS
 #@app.route('/manage/<restaurant>', methods=['GET', 'POST'])
