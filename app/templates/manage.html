@@ -34,14 +34,14 @@
         <h1> Restaurant Name: <span id="restaurantName"> {{rest[0]}} </span>
         </h1>
 
-        <h1> Opening Time: <span id="openTime">{{rest[1]}}</span></h1>
+        <h3> Opening Time: <span id="openTime">{{rest[1]}}</span></h3>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[1] }}">
 					<input type="hidden" name="new_val" value="{{ rest }}">
 					<input type="hidden" name="num" value="2">
 					<button type="submit">Confirm</button>
 				</form>
-				<h1> Closing Time: <span id="openTime">{{rest[2]}}</span></h1>
+				<h3> Closing Time: <span id="openTime">{{rest[2]}}</span></h3>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[2] }}">
 					<input type="hidden" name="new_val" value="{{ rest }}">
@@ -49,7 +49,7 @@
 					<button type="submit">Confirm</button>
 				</form>
 
-				<h1> Time between reservations: <span id="openTime">{{rest[3]}}</span></h1>
+				<h3> Time between reservations: <span id="openTime">{{rest[3]}}</span></h3>
 				<form action="/update" method="POST">
 					<input type="text" name="val" value="{{ rest[3] }}">
 					<input type="hidden" name="new_val" value="{{ rest }}">
