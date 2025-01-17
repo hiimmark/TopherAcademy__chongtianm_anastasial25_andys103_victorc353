@@ -164,6 +164,20 @@ def update():
         print(type(restA[0][2:-1]))
         ls = db.updateRestaurantOpen(restA[0][2:-1], field_name)
         print(f"ls: {ls}")
+    if (num == 3 or num == "3"):
+        print(f"lsdds: {field_name}")
+        print(type(field_name))
+        print(restA[0][2:-1])
+        print(type(restA[0][2:-1]))
+        ls = db.updateRestaurantClose(restA[0][2:-1], field_name)
+        print(f"ls: {ls}")
+    if (num == 4 or num == "4"):
+        print(f"lsdds: {field_name}")
+        print(type(field_name))
+        print(restA[0][2:-1])
+        print(type(restA[0][2:-1]))
+        ls = db.updateRestaurantTime(restA[0][2:-1], int(field_name))
+        print(f"ls: {ls}")
     print(f"time{field_name} ttoal {new_val} num {num}")
     return redirect("/manage")
 
